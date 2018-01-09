@@ -418,8 +418,8 @@ Identifying which application sends a request
 + voucher: 20130704 (string, required)
 + termFrom: `2017-05-21T10:59Z` (string, required) - Date check-in reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 + termTo: `2017-05-23T10:59Z` (string, required) - Date check-out reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ created: 2016-12-24 (date, required)
-+ optionExpiration: 2016-12-28 (date, optional)
++ created: `2017-05-23T10:59Z` (string, required) - Create date of commission (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
++ optionExpiration: `2017-05-23T10:59Z` (string, optional) - Date of expiration option (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 + price: 250.34 (number, required) 
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission
 + guest (array[Guest])
@@ -429,33 +429,33 @@ Identifying which application sends a request
 ## Guest
 + gueId: 34590366 (number,required) - The unique identifier for guest per hotel
 + meaId: 1 (number, required) - The unique identifier for guest meal
-+ name: David O'Sheen (string,required)
-+ email: radim@vaculik.cz (string,required)
-+ phone: +420 421 123 987 (string,required)
++ name: David O'Sheen (string,optional)
++ email: radim@vaculik.cz (string,optional)
++ phone: +420 421 123 987 (string,optional)
 + category: 1 (number,required)
 + isRecreation: true (boolean,required) - The guest will pay the city fee
-+ recreation: Work trip (string,required) 
-+ birthDate: 2017-05-24T00:00:00Z (date,required) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
++ recreation: Work trip (string,optional) 
++ birthDate: 2017-05-24T00:00:00Z (date,optional) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
 + gender: m (string,required)
-+ address: Řeznická 48, Liberec 1, 46001 (string,required)
-+ visa: 324ERTCVGHJIU (string, required)
-+ numberPlate: 7A7 2K3S (string, required)
-+ identity (Identity,required)
++ address: Řeznická 48, Liberec 1, 46001 (string,optional)
++ visa: 324ERTCVGHJIU (string, optional)
++ numberPlate: 7A7 2K3S (string, optional)
++ identity (Identity,optional)
 
 ## ContactPerson
-+ name: Elon Musk (string, required)
++ name: Elon Musk (string, optional)
 + email: elon.musk@spacex.com (string, optional)
 + phone: +420 340 233 034 (string, optional)
 
 ##Company
 + parId: 2412 (number,required) - The unique identifier for company
-+ shortcut: Hotel.cz (string,required)
-+ name: Hotel.cz a. s. (string,required)
-+ ic: 2331491 (number,required) 
-+ dic: CZ2331491 (string, required)
-+ street: Řesnická 21 (string,required)
-+ city: Liberec 1 (string,required)
-+ zip: 460 01 (string,required) 
++ shortcut: Hotel.cz (string,optional)
++ name: Hotel.cz a. s. (string,optional)
++ ic: 2331491 (number,optional) 
++ dic: CZ2331491 (string, optional)
++ street: Řesnická 21 (string,optional)
++ city: Liberec 1 (string,optional)
++ zip: 460 01 (string,optional) 
 + couId: 1 (number,required) - The unique identifier for company
 
 ##Partner
@@ -491,7 +491,7 @@ Identifying which application sends a request
 ## Hotel
 + hotId: 14690 (number, required) - The unique identifier for hotel
 + name: Previo hotel (string, required) - Name of hotel
-+ license: 1 (number, required) - The unique identifier for license: 2 - pro, 3 - lite, 4 - connect, 5 - bridge, 7 - school, 8 - eKasa
++ licId: 1 (number, required) - The unique identifier for license: 2 - pro, 3 - lite, 4 - connect, 5 - bridge, 7 - school, 8 - eKasa
 + arrival: `14:00:00Z` (string, required) - (HH:mm:ss'Z') Time of default check-in
 + departure: `10:00:00Z` (string, required) - (HH:mm:ss'Z') Time of default check-out
 + defaultCurrency: 1 (number, required) - Default currency for the hotel
@@ -585,12 +585,12 @@ Identifying which application sends a request
 
 ## Dashboard
 + curId: 1 (number, required) - The unique identifier for currency
-+ roomOccupancy: 30.23 (number, required) - Percent occupancy of rooms
-+ bedOccupancy: 25.76 (number, required) - Percent occupancy of beds
-+ revenues: 3234.32 (number, required) - Revenues for selected date
++ roomOccupancy: 30 (number, required) - Percent occupancy of rooms
++ bedOccupancy: 25 (number, required) - Percent occupancy of beds
++ revenues: 3234 (number, required) - Revenues for selected date
 + revpar: 532 (number, required) - Revpar for selected date
-+ adr: 43.23 (number, required) - Adr for selected date
-+ pickup: 23.23 (number, required) - Pickup for selected date
++ adr: 43 (number, required) - Adr for selected date
++ pickup: 23 (number, required) - Pickup for selected date
 + arrival: 22 (number, required) - Count of arrival reservation at selected date
 + departure: 12 (number, required) - Count of departure reservation at selected date
 + create: 12 (number, required) - Number of created reservation at selected date
