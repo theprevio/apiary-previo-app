@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: https://api.previo.cz/app
 
-# Previo App REST
+# Previo app API
 
 ## Allowed HTTPs requests:
 - `GET` - Get a resource or list of resources
@@ -22,8 +22,9 @@ Every response could return an error. When this happens status code is `4XX` or 
 
 ```
 {
-    code: 402 (number,required)
-    error: Failed to get data (string,required)
+    code: 402 (number, required)
+    error: Failed to get data from MySQL (string, required)
+    message: Failed to get data (string, required)
 }
 ```
 
@@ -56,9 +57,11 @@ Identifying which application sends a request
 
 ## Reservation [/reservation]
 
-`!! VŠECHNY ÚPRAVY LOGOVAT DO HISTORIE ZMĚN V PREVIU !!`
+`!! SHOW ALL CAHNGES IN RESERVATION HISTORY !!`
 
 ### Get reservations by filter [GET /reservation{?from}{?to}{?termType}{?statuses}{?fulltext}{?resId}{?obtId}{?count}{?offset}]
+
+`In development`
 
 + Parameters
     + from: `2017-04-12T12:12:30` (date, optional) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -78,6 +81,8 @@ Identifying which application sends a request
 
 ### Save new reservation [POST]
 
+`In development`
+
 + Request (application/json)
     + Attributes (Reservation)
 
@@ -85,6 +90,9 @@ Identifying which application sends a request
     + Attributes (Reservation)
 
 ### Update reservation [PUT /reservation/{resId}]
+
+`In development`
+
 + Parameters
     + resId: 11994846 (number, required) - The unique identifier for goup reservation
 
@@ -95,6 +103,9 @@ Identifying which application sends a request
     + Attributes (Reservation)
 
 ### Delete commission [DELETE /commission/{comId}]
+
+`In development`
+
 + Parameters
     + comId: 11994846 (number, required) - The unique identifier for commission
     
@@ -103,6 +114,9 @@ Identifying which application sends a request
 + Response 204 (application/json)
 
 ### Delete reservation [DELETE /reservation/{resId}]
+
+`In development`
+
 + Parameters
     + resId: 11994846 (number, required) - The unique identifier for reservation
     
@@ -113,9 +127,11 @@ Identifying which application sends a request
 
 ## Account [/account]
 
-`!! VŠECHNY ÚPRAVY LOGOVAT DO HISTORIE ZMĚN V PREVIU !!`
+`!! SHOW ALL CAHNGES IN RESERVATION HISTORY !!`
 
 ### Get account [GET /account{?resId}]
+
+`In development`
 
 + Parameters
     + resId: 11994846 (number,required) - The unique identifier for reservation
@@ -126,6 +142,8 @@ Identifying which application sends a request
     + Attributes (Account)
 
 ### Add item at account [POST /account{?resId}{?comId}]
+
+`In development`
 
 + Parameters
     + resId: 11994846 (number,required) - The unique identifier for reservation (add item at group account)
@@ -139,6 +157,8 @@ Identifying which application sends a request
 
 ### Update account [PUT /account{?resId}]
 
+`In development`
+
 + Parameters
     + resId: 11994846 (number,required) - The unique identifier for reservation
     
@@ -149,6 +169,8 @@ Identifying which application sends a request
     + Attributes (Account)
 
 ### Delete item [DELETE /account{?coaId}{?comId}]
+
+`In development`
 
 + Parameters
     + coaId: 213 - (nuber, required) - The unique identifier for account item
@@ -162,32 +184,37 @@ Identifying which application sends a request
 
 ### Get hotels [GET /hotel]
 
+`In development`
+
 + Request (application/json)
     
 + Response 200 (application/json)
     + Attributes (array[Hotel])
 
 
-## Room type [/roomkind]
+## Room [/room]
 
-### Get list of room kind [GET /roomkind]
+### Get list of room kind [GET /room/kind]
+
+`In development`
 
 + Request (application/json)
     
 + Response 200 (application/json)
     + Attributes (array[RoomKind])
 
-
-## Rooms [/room]
-
 ### Get list of rooms [GET /room]
 
+`In development`
+
 + Request (application/json)
     
 + Response 200 (application/json)
     + Attributes (array[Room])
 
-### Is room avalible in term [GET /room{?from}{?to}]
+### Get rooms in term [GET /room{?from}{?to}]
+
+`In development`
 
 + Parameters
     + from: `2017-04-12 14:30:00` (date, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -196,59 +223,14 @@ Identifying which application sends a request
 + Request (application/json)
     
 + Response 200 (application/json)
-    + Attributes (array[Room])
-
-## Room price plan and STOP [/???]
-
-### Get rooms price and STOP [GET /???{?date}]
-
-+ Parameters
-    + date: `2017-04-16 12:30:00` (date, required) - Date of date plan (YYYY-MM-DD'T'HH:mm:ss'Z')
-
-+ Request (application/json)
-   + Attributes (array[RoomKindPriceAndSTOP])
-
-+ Response 200 (application/json)
-
-### Get room price and STOP [GET /???{?obkId}{?date}]
-
-+ Parameters
-    + obkId: 3462 (number, required) - Start of term TODO...
-    + date: `2017-04-16 12:30:00` (date, required) - Date of date plan (YYYY-MM-DD'T'HH:mm:ss'Z')
-
-+ Request (application/json)
-   + Attributes (array[RoomKindPriceAndSTOP])
-
-+ Response 200 (application/json)
-
-### Set room price and STOP [PUT /???{?from}{?to}]
-
-+ Parameters
-    + from: `2017-04-12 14:30:00` (date, required) - Start of term (YYYY-MM-DD'T'HH:mm:ss'Z')
-    + to: `2017-04-16 12:30:00` (date, required) - End of term (YYYY-MM-DD'T'HH:mm:ss'Z')
-
-+ Request (application/json)
-   + Attributes (array[RoomKindPriceAndSTOP])
-
-+ Response 200 (application/json)
-
-## Close rooms [/room/close]
-
-### Get close rooms in term [GET /room/stop{?from}{?to}]
-
-+ Parameters
-    + from: `2017-04-12 14:30:00` (date, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
-    + to: `2017-04-16 12:30:00` (date, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
-
-+ Request (application/json)
-    
-+ Response 200 (application/json)
-    + Attributes (array[RoomStop])
+    + Attributes (array[RoomAvailable])
 
 
 ## Meal [/meal]
 
 ### Get list of meals [GET /meal]
+
+`In development`
 
 + Request (application/json)
     
@@ -257,6 +239,8 @@ Identifying which application sends a request
 
 ### Is meal avalible in term [GET /meal{?from}{?to}]
 
+`In development`
+
 + Parameters
     + from: `2017-04-12 14:30:00` (date, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
     + to: `2017-04-16 12:30:00` (date, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -264,23 +248,13 @@ Identifying which application sends a request
 + Request (application/json)
     
 + Response 200 (application/json)
-    + Attributes (array[Meal])
+    + Attributes (array[MealAvalible])
 
 
-## Notification [/notification]
+## Notification - draft [/notification]
+`Use OneSignal - do not program yet`
 
-### Get notification setting [GET /notification/device{?os}{?token}]
-
-+ Parameters
-    + os: ios (string, required) - Operation system (ios. android)
-    + token: HBUTjih:uzg0987:65rtcvzOIU76... - Notification token
-    
-+ Request (application/json)
-    
-+ Response 200 (application/json)
-    + Attributes (NotificationSetting)
-
-### Add notification setting [POST /notification/device{?os}{?token}]
+### Get notification setting - draft [GET /notification/device{?os}{?token}]
 
 + Parameters
     + os: ios (string, required) - Operation system (ios. android)
@@ -291,7 +265,18 @@ Identifying which application sends a request
 + Response 200 (application/json)
     + Attributes (NotificationSetting)
 
-### Update notification setting [PUT /notification/device{?os}{?token}]
+### Add notification setting - draft [POST /notification/device{?os}{?token}]
+
++ Parameters
+    + os: ios (string, required) - Operation system (ios. android)
+    + token: HBUTjih:uzg0987:65rtcvzOIU76... - Notification token
+    
++ Request (application/json)
+    
++ Response 200 (application/json)
+    + Attributes (NotificationSetting)
+
+### Update notification setting - draft [PUT /notification/device{?os}{?token}]
 
 + Parameters
     + os: ios (string, required) - Operation system (ios. android)
@@ -308,6 +293,8 @@ Identifying which application sends a request
 
 ### Get dashboard data [GET /statistic/dashboard/{?date}]
 
+`In development`
+
 + Parameters
     + date: `2017-04-12` (date, required) - Load dashboatd data for this date (YYYY-MM-DD'T'HH:mm:ss'Z')
 
@@ -319,7 +306,9 @@ Identifying which application sends a request
 
 ## Review [/review]
 
-### Get guest review [GET /review{?count}{?offset}]
+### Get guests reviews [GET /review{?count}{?offset}]
+
+`In development`
 
 + Parameters
     + count: 50 (number, optional) - Count of return review
@@ -335,8 +324,10 @@ Identifying which application sends a request
 
 ### Contact person [GET /suggest/contactPerson{?fulltext}]
 
+`In development`
+
 + Parameters
-    + fulltext: Jonh Wick (string, optional) - Search in contact person name
+    + fulltext: Jonh Wick (string, optional) - Search in contact person by name, phone and email
 
 + Request (application/json)
     
@@ -345,8 +336,10 @@ Identifying which application sends a request
 
 ### Guest [GET /suggest/guest{?fulltext}]
 
+`In development`
+
 + Parameters
-    + fulltext: Jonh Wick (string, optional) - Search in guest name
+    + fulltext: Jonh Wick (string, optional) - Search in guest firtname, surname, email and phone
 
 + Request (application/json)
     
@@ -355,8 +348,10 @@ Identifying which application sends a request
 
 ### Company [GET /suggest/company{?fulltext}]
 
+`In development`
+
 + Parameters
-    + fulltext: SpaceX (string, optional) - Search in company name or ič
+    + fulltext: SpaceX (string, optional) - Search in company name, IČ, DIČ
 
 + Request (application/json)
     
@@ -368,12 +363,16 @@ Identifying which application sends a request
 
 ### Reservation status [GET /system/reservationStatus]
 
+`In development`
+
 + Request (application/json)
     
 + Response 200 (application/json)
     + Attributes (array[ReservationStatus])
 
 ### Get list of vats [GET /system/vat]
+
+`In development`
 
 + Request (application/json)
     
@@ -382,6 +381,8 @@ Identifying which application sends a request
 
 ### Get list of licenses [GET /system/license]
 
+`In development`
+
 + Request (application/json)
     
 + Response 200 (application/json)
@@ -389,12 +390,16 @@ Identifying which application sends a request
 
 ### Get list of country [GET /system/country]
 
+`In development`
+
 + Request (application/json)
     
 + Response 200 (application/json)
     + Attributes (array[Country])
 
 ### Get partners logo [GET /system/partnerLogo]
+
+`In development`
 
 + Request (application/json)
     
@@ -428,19 +433,27 @@ Identifying which application sends a request
 
 ## Guest
 + gueId: 34590366 (number,required) - The unique identifier for guest per hotel
-+ meaId: 1 (number, required) - The unique identifier for guest meal
-+ name: David O'Sheen (string,optional)
-+ email: radim@vaculik.cz (string,optional)
-+ phone: +420 421 123 987 (string,optional)
-+ category: 1 (number,required)
-+ isRecreation: true (boolean,required) - The guest will pay the city fee
-+ recreation: Work trip (string,optional) 
-+ birthDate: 2017-05-24T00:00:00Z (date,optional) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
-+ gender: m (string,required)
-+ address: Řeznická 48, Liberec 1, 46001 (string,optional)
++ meaId: 1 (number, optional) - The unique identifier for guest meal
++ firstName: David (string, optional)
++ lastName: O'Sheen (string, optional)
++ email: radim@vaculik.cz (string, optional)
++ phone: +420 421 123 987 (string, optional)
++ category: 1 (number, required)
++ isRecreation: true (boolean, required) - The guest will pay the city fee
++ recreation: Work trip (string, optional) 
++ birthDate: `2017-05-24T00:00:00Z` (string, optional) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
++ gender: 1 (number, required) - 1 man 2 woman 3 not defined
++ address (AddressGuest, optional)
 + visa: 324ERTCVGHJIU (string, optional)
-+ numberPlate: 7A7 2K3S (string, optional)
-+ identity (Identity,optional)
++ licencePlateNumber: 7A7 2K3S (string, optional)
++ identity (Identity, optional)
+
+## AddressGuest
++ street: Panska 6 (string, optional)
++ streetNumber: 6 (string, optional)
++ city: Brno (string,optional)
++ zip: 60200 (string,optional)
++ couId: 1 (number,optional) - The unique identifier for country
 
 ## ContactPerson
 + name: Elon Musk (string, optional)
@@ -448,15 +461,15 @@ Identifying which application sends a request
 + phone: +420 340 233 034 (string, optional)
 
 ##Company
-+ parId: 2412 (number,required) - The unique identifier for company
-+ shortcut: Hotel.cz (string,optional)
-+ name: Hotel.cz a. s. (string,optional)
-+ ic: 2331491 (number,optional) 
++ parId: 2412 (number, required) - The unique identifier for company
++ shortcut: Hotel.cz (string, optional)
++ name: Hotel.cz a. s. (string, optional)
++ ic: 2331491 (number, optional) 
 + dic: CZ2331491 (string, optional)
-+ street: Řesnická 21 (string,optional)
-+ city: Liberec 1 (string,optional)
-+ zip: 460 01 (string,optional) 
-+ couId: 1 (number,required) - The unique identifier for company
++ street: Řesnická 21 (string, optional)
++ city: Liberec 1 (string, optional)
++ zip: 460 01 (string, optional) 
++ couId: 1 (number, required) - The unique identifier for company
 
 ##Partner
 + prpId: 1 (number, required) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
@@ -471,9 +484,9 @@ Identifying which application sends a request
 + commisions (array[CommissionAccount])
 + group (GroupAccount)
 
-## CommissionAccount 
-+ total: 200.21 (number, required) - Total price af room account
+## CommissionAccount
 + comId: 12484225 (number,required) - The unique identifier for commission of reservation
++ total: 200.21 (number, required) - Total price af room account
 + accountItems (array[AccountItem])
 
 ## GroupAccount 
@@ -524,12 +537,11 @@ Identifying which application sends a request
 + objId: 6323 (number, required) - The unique identifier for the room
 + obkId: 2341 (number, required) - The unique identifier for room kind
 + name: Space (string, required) - Name of the room
-+ bed: 3 (number, required) - Number of bed - `!DEPRECATED!`
-+ extraBed: 2 (number, required) - Number of extra bed - `!DEPRECATED!`
-+ order: 1.2 (number, required) - Position at canvas - `!DEPRECATED!`
-+ isStop: false (boolean, optional) - Is room close for online reservation from Booking.com, Hotel.cz, ...
-+ isOccupied: true (boolean, optional) - Is room occupied by another reservation
-+ isContingent: false (boolean, optional) - Is room open only for specific partners (Booking.com, Hotel.cz, ...) - `!DEPRECATED!`
+
+## RoomAvailable
++ objId: 6323 (number, required) - The unique identifier for the room
++ isStop: true (boolean, required) - There is a STOP in given term
++ isOccupied: true (boolean, required) - There is a reservation(s) going on in given term
 
 ## RoomStop
 + objId: 1231 (number, required) - The unique identifier for the room
@@ -541,7 +553,8 @@ Identifying which application sends a request
 
 ## UserInfo
 + paysApp: true (boolean, required) - Is user pay for aplication
-+ language: 1 (number, required) - Language for user
++ language: 1 (number, required) - Language for user - DEPRECATED
++ lanId: 1 (number, required) - Language for user
 + versionSupported: true (boolean, required) - Is version of aplication supported
 + newerVersion: false (boolean, required) - Is avalible newer version
 + privileges (Permissions, required) - 1 - view, 3 - edit, 5 - delete, 7 - all
@@ -564,6 +577,9 @@ Identifying which application sends a request
 ## Meal
 + meaId: 1 (number, required) - The unique identifier for meal
 + name: All inclusive (string, required)
+
+## MealAvalible
++ meaId: 1 (number, required) - The unique identifier for meal
 + isAvalible: true (boolean, optional) - Is meal avalible in term
 
 ## Country
@@ -602,7 +618,7 @@ Identifying which application sends a request
 + termFrom: `2017-05-21T10:59Z` (string,required) - Date check-in reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 + termTo: `2017-05-23T10:59Z` (string,required) - Date check-out reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 + voucher: 557ER32 (string, required) - Voucher of commission
-+ created: 2016-12-24 (date,required) - Date od created review
++ created: `2016-12-24` (string, required) - Date od created review
 + service: 2 (number, optional) - Services (1 to 10)
 + staff: 10 (number, optional) - Staff (1 to 10)
 + clean: 7 (number, required) - Cleanness (1 to 10)
@@ -610,10 +626,10 @@ Identifying which application sends a request
 + ratio: 4 (number, required) - Price / value ratio (1 to 10)
 + positiveText: Good location, and new forniture (string, optional) - Positive text of review
 + negativeText: Noisy rooms (string, optional) - Negative text of review
-+ privateText: Difficult to sleep when the neighbour is watching the tv in a normal volume (string, required) - Private message to hotel personal
-+ guestName: Jonh Wick (string, optional)
-+ guestCountry: USA (string, optional) 
-+ guestTown: Bejrút (string, optional)
++ privateText: Difficult to sleep when the neighbour is watching the tv in a normal volume (string, optional) - Private message to hotel personal
++ guestName: Jonh Wick (string, optional) - Guest name, send NULL if anonym
++ guestCountry: USA (string, optional) - Guest country
++ guestTown: Bejrút (string, optional) - Guest town
 
 ## PartnerLogo
 + prpId: 1 (number, required) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
@@ -623,6 +639,7 @@ Identifying which application sends a request
 + staId: 1 (number, required) - The unique identifier for reservation status
 + name: Option (string, required) - Name of reservation status
 + color: #FE8F01 (string, required) - Color for reservation status
++ showOnCanvas: true (boolean, required) - Show reservation on canvas
 
 ## License
 + licId: 1 (number, required) - The unique identifier for license
