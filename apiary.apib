@@ -33,7 +33,6 @@ Every response could return an error. When this happens status code is `4XX` or 
 Authorization: {Base64(userEmail:password)}
 X-Previo-App-ID: {appId}
 X-Previo-Hotel-ID: {hotId}
-X-Previo-Language-ID: {lanId}
 ```
 
 #### X-Previo-App-ID
@@ -50,41 +49,47 @@ Identifying which application sends a request
     + versionCode: 33 (number, required) - Code of version aplication
 
 + Request (application/json)
-    
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+
 + Response 200 (application/json)
     + Attributes (UserInfo)
 
 
 ## Reservation [/reservation]
 
-`!! SHOW ALL CAHNGES IN RESERVATION HISTORY !!`
-
-### Get reservations by filter [GET /reservation{?from}{?to}{?termType}{?statuses}{?fulltext}{?resId}{?obtId}{?count}{?offset}]
+### Get reservation [GET /reservation{?resId}{?comId}]
 
 `In development`
 
 + Parameters
-    + from: `2017-04-12T12:12:30Z` (string, optional) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
-    + to: `2017-04-16T22:32:12Z`(string, optional) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
-    + termType: overlap (string, optional) - Type of the searching term allowed values (created, check-in, check-out, overlap, modified)
-    + statuses: 1 (number, optional) - (array) If empty search in all statuses
-    + fulltext: Jakub Hrdý (string, optional) - Search in voucher, contact person and guest name, email, phone, company name
-    + resId: 26345103 (number, optional) - The unique identifier for goup reservation
-    + obtId: 1 - (array) The unique identifier for object type
-    + count: 20 - (number, optional) - Count of return reservation object
-    + offset: 50 - (number, optional) - Offset
+    + resId: 26345103 (number, optional) - The unique identifier for group reservation
+    + comId: 3241 (number, optional) - The unique identifier for reservation commission
 
 + Request (application/json)
-    
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
 + Response 200 (application/json)
-    + Attributes (array[Reservation])
+    + Attributes (Reservation)
 
 ### Save new reservation [POST]
 
 `In development`
 
 + Request (application/json)
-    + Attributes (Reservation)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
+    + Attributes (ReservationCreate)
 
 + Response 200 (application/json)
     + Attributes (Reservation)
@@ -97,12 +102,18 @@ Identifying which application sends a request
     + resId: 11994846 (number, required) - The unique identifier for goup reservation
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
     + Attributes (Reservation)
 
 + Response 200 (application/json)
     + Attributes (Reservation)
 
-### Delete commission [DELETE /commission{comId}]
+### Delete commission [DELETE /commission/{?comId}]
 
 `In development`
 
@@ -110,10 +121,15 @@ Identifying which application sends a request
     + comId: 11994846 (number, required) - The unique identifier for commission
     
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
 
 + Response 204 (application/json)
 
-### Delete reservation [DELETE /reservation{resId}]
+### Delete reservation [DELETE /reservation/{?resId}]
 
 `In development`
 
@@ -121,6 +137,11 @@ Identifying which application sends a request
     + resId: 11994846 (number, required) - The unique identifier for reservation
     
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
 
 + Response 204 (application/json)
 
@@ -289,7 +310,28 @@ Identifying which application sends a request
     + Attributes (array[Review])
 
 
-## Suggest [/suggest]
+## Suggest [/]
+
+### Get reservations by filter [GET /reservation/suggest{?from}{?to}{?fulltext}{?count}{?offset}]
+
+`In development`
+
++ Parameters
+    + from: `2017-04-12T12:12:30` (string, optional) - Date check-in reservation (ISO 8601)
+    + to: `2017-04-16T22:32:12`(string, optional) - Date check-out reservation (ISO 8601)
+    + fulltext: Jonh Wick (string, optional) - Search in coucher, contact person by name, phone and email, company name, guest by name, phone and email (required send parametrs count and offset)
+    + count: 20 (number, optional) - Count of items in responce array
+    + offset: 40 (number, optional) - Offset of first item in array
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
++ Response 200 (application/json)
+    + Attributes (array[ReservationSuggest])
 
 ### Contact person [GET /suggest/contactPerson{?fulltext}]
 
@@ -357,42 +399,73 @@ Identifying which application sends a request
 ## Data Structure
 
 ## Reservation
-+ resId: 11994846 (number, required) - The unique identifier for reservation
-+ curId: 1 (number, required) - The unique identifier for currency
-+ commissions (array[Commission])
++ resId: 71994 (number, required) - The unique identifier for reservation
++ commissions (array[Commission], required)
 + contactPerson (ContactPerson, optional)
-+ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservation
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
 
 ## Commission
-+ comId: 12484225 (number, required) - The unique identifier for commission of reservation
++ comId: 52225 (number, required) - The unique identifier for commission of reservation
 + objId: 6323 (number, required) - The unique identifier for the room
-+ prpId: 1 (number, required) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
++ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
 + cosId: 1 (number, required) - The unique identifier for status of commission
-+ voucher: 20130704 (string, required)
-+ termFrom: `2017-05-21T10:59Z` (string, required) - Date check-in reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ termTo: `2017-05-23T10:59Z` (string, required) - Date check-out reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ created: `2017-05-23T10:59Z` (string, required) - Create date of commission (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ optionExpiration: `2017-05-23T10:59Z` (string, optional) - Date of expiration option (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ price: 250.34 (number, required) 
-+ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission
-+ guest (array[Guest])
++ voucher: 20130704 (string, optional) - Voucher for commission
++ termFrom: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ termTo: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
++ optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
++ guests (array[Guest], required)
 + company (Company)
 
+## ReservationCreate
++ commissions (array[CommissionCreate], required)
++ contactPerson (ContactPerson, optional)
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
+
+## CommissionCreate
++ objId: 6323 (number, required) - The unique identifier for the room
++ cosId: 1 (number, required) - The unique identifier for status of commission
++ objId: 6323 (number, required) - The unique identifier for the room
++ termFrom: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ termTo: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
++ guestCount: 4 (number, required) - Count of guest
++ guestCountWithoutBed: 2 (number, optional) - Count of guest without bed
++ voucher: 20130704 (string, optional) - Voucher for commission
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
++ company (Company)
+
+## ReservationSuggest
++ resId: 71994 (number, required) - The unique identifier for reservation
++ commissions (array[CommissionSuggest], required)
++ contactPersonName: Elon Musk (string, optional) - Name of contact person
+
+## CommissionSuggest
++ comId: 643 (number, required) - The unique identifier for commission of reservation
++ cosId: 1 (number, required) - The unique identifier for status of commission
++ termFrom: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ termTo: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ guestName: Elon Musk (string, optional) - Name of first filled guest
++ guestCount: 3 (number, required) - Count of guest on this room
++ companyName: Previo - Name of company
++ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
+
 ## Guest
-+ gueId: 34590366 (number,required) - The unique identifier for guest per hotel
++ gueId: 9366 (number,optional) - The unique identifier for guest per hotel
 + guaId: 1 (number, required) - The unique identifier for guest category
 + meaId: 1 (number, optional) - The unique identifier for guest meal
 + firstName: David (string, optional)
 + lastName: O'Sheen (string, optional)
-+ email: radim@vaculik.cz (string, optional)
++ email: user@example.com (string, optional)
 + phone: +420 421 123 987 (string, optional)
 + isRecreation: true (boolean, required) - The guest will pay the city fee
 + recreation: Work trip (string, optional) 
-+ birthDate: `2017-05-24T00:00:00Z` (string, optional) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
-+ gender: 1 (number, required) - 1 man 2 woman 3 not defined
-+ address (AddressGuest, optional)
++ birthDate: `2017-05-24T00:00:00` (string, optional) - (ISO 8601)
++ genderId: 1 (number, required) - The unique identifier for guest gender (genId is not allowed!! genderId is from static code book)
++ address (AddressGuest, required)
 + visa: 324ERTCVGHJIU (string, optional)
-+ licencePlateNumber: 7A7 2K3S (string, optional)
++ numberPlate: 7A7 2K3S (string, optional) - Number plate of guest`s car
 + identity (Identity, optional)
 
 ## GuestSuggest
@@ -403,14 +476,14 @@ Identifying which application sends a request
 + email: radim@vaculik.cz (string, optional)
 + phone: +420 421 123 987 (string, optional)
 + birthDate: `2017-05-24T00:00:00Z` (string, optional) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
-+ gender: 1 (number, required) - 1 man 2 woman 3 not defined
-+ address (AddressGuest, optional)
++ genderId: 1 (number, required) - The unique identifier for guest gender (genId is not allowed!! genderId is from static code book)
++ address (AddressGuest, required)
 + visa: 324ERTCVGHJIU (string, optional)
-+ licencePlateNumber: 7A7 2K3S (string, optional)
++ numberPlate: 7A7 2K3S (string, optional) - Number plate of guest`s car
 + identity (Identity, optional)
 
 ## AddressGuest
-+ street: Panska 6 (string, optional)
++ street: Panska (string, optional)
 + streetNumber: 6 (string, optional)
 + city: Brno (string,optional)
 + zip: 60200 (string,optional)
@@ -422,26 +495,26 @@ Identifying which application sends a request
 + phone: +420 340 233 034 (string, optional)
 
 ##Company
-+ parId: 2412 (number, required) - The unique identifier for company
-+ shortcut: Hotel.cz (string, optional)
-+ name: Hotel.cz a. s. (string, optional)
++ parId: 2412 (number, optional) - The unique identifier for company
++ shortcut: Previo (string, optional)
++ name: Previo s.r.o. (string, optional)
 + address (AddressCompany, required)
-+ companyIdentifications (array[CompanyIdentification])
++ companyIdentifications (array[CompanyIdentification], required)
 
 ## AddressCompany
-+ street: Panska 6 (string, optional)
++ street: Panska (string, optional)
 + streetNumber: 6 (string, optional)
-+ city: Brno (string,optional)
-+ zip: 60200 (string,optional)
-+ couId: 1 (number,required) - The unique identifier for country
++ city: Brno (string, optional)
++ zip: 60200 (string, optional)
++ couId: 1 (number, required) - The unique identifier for country
 
 ## CompanyIdentification
 + value: 233MK2 (string, optional) - Value of IČ, DIČ etc..
-+ identificationNumer: 1 (number, required) - Type of company identification (CompanyIdentificationNumber)
++ type: 1 (number, required) - Type of company identification (CompanyIdentificationNumber)
 
 ## Identity
-+ number: N5646645 (string,optional)
-+ type: 1 (number,optional) - 1 ID card, 2 passport, 3 driving license, 4 permanent residence
++ number: N5646645 (string, optional)
++ guiId: 1 (number, optional) - The unique identifier for guest identity type
 
 ## Account
 + curId: 1 (number,required) - The unique identifier for currency
@@ -511,12 +584,8 @@ Identifying which application sends a request
 + termTo: `2017-05-21T10:59Z` (string, required) - End at this date (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 
 ## UserInfo
-+ paysApp: true (boolean, required) - Is user pay for aplication - DEPRECATED
-+ language: 1 (number, required) - Language for user - DEPRECATED
-+ lanId: 1 (number, required) - Language for user
 + versionSupported: true (boolean, required) - Is version of aplication supported
 + newerVersion: false (boolean, required) - Is avalible newer version
-+ privileges (PrivilegesDEPRECATED, required) - 1 - view, 3 - edit, 5 - delete, 7 - all - DEPRECATED
 + permission (Permission, required) - Listed permissions for users
 
 ## Permission
@@ -550,11 +619,11 @@ Identifying which application sends a request
 + add: true (boolean, required) - Permission for adding new reservations
 + edit: true (boolean, required) - Permission for editing reservations
 + editChangeStatus: true (boolean, required) - Permission for changing status
-+ editHotelAccountItemAdd: true (boolean, required) - Permission for adding new items on room account
-+ editHotelAccountItemVatRateEdit: true (boolean, required) - Permission for changing vat value
-+ editHotelAccountItemPriceEdit: true (boolean, required) - Permission for changing price on room account
++ editHotelAccountEditItemVatRateEdit: true (boolean, required) - Permission for changing vat value
++ editHotelAccountEditItemPriceEdit: true (boolean, required) - Permission for changing price on room account
 + editHotelAccountItemRemove: true (boolean, required) - Permission for changing deleting items on room account
 + editReservationNoteEdit: true (boolean, required) - Permission for editing reservation note
++ editHotelAccountOwnItemAdd: true (boolean, required) - Permission for adding new item on hotel account
 
 ## CompanyPermission
 + add: true (boolean, required) - Permission for add company 
