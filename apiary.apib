@@ -65,8 +65,7 @@ Identifying which application sends a request
 `In development`
 
 + Parameters
-    + resId: 26345103 (number, optional) - The unique identifier for group reservation
-    + comId: 3241 (number, optional) - The unique identifier for reservation commission
+    + resId: 26345103 (number, required) - The unique identifier for group reservation
 
 + Request (application/json)
     + Headers
@@ -94,12 +93,9 @@ Identifying which application sends a request
 + Response 200 (application/json)
     + Attributes (Reservation)
 
-### Update reservation [PUT /reservation{resId}]
+### Update reservation [PUT /reservation]
 
 `In development`
-
-+ Parameters
-    + resId: 11994846 (number, required) - The unique identifier for goup reservation
 
 + Request (application/json)
     + Headers
@@ -108,12 +104,12 @@ Identifying which application sends a request
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
 
-    + Attributes (Reservation)
+    + Attributes (ReservationRequest)
 
 + Response 200 (application/json)
     + Attributes (Reservation)
 
-### Delete commission [DELETE /commission/{?comId}]
+### Delete commission [DELETE /reservation/{?comId}]
 
 `In development`
 
@@ -158,6 +154,11 @@ Identifying which application sends a request
     + resId: 11994846 (number,required) - The unique identifier for reservation
     
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (Account)
@@ -167,39 +168,54 @@ Identifying which application sends a request
 `In development`
 
 + Parameters
-    + resId: 11994846 (number,required) - The unique identifier for reservation (add item at group account)
-    + comId: 11994846 (number,required) - 12484225 (number,required) - The unique identifier for commission of reservation (add item at room/commission account)
+    + resId: 11994846 (number,optional) - The unique identifier for reservation (add item at group account)
+    + comId: 11994846 (number,optional) - The unique identifier for commission of reservation (add item at room/commission account)
     
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+    
+
+   + Attributes (AddAccountItem)
+
++ Response 200 (application/json)
+    + Attributes (Account)
+
+### Update account [PUT /account]
+
+`In development`
+  
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
    + Attributes (AccountItem)
    
 + Response 200 (application/json)
     + Attributes (Account)
 
-### Update account [PUT /account{?resId}]
+### Delete item [DELETE /account{?coaId}]
 
 `In development`
 
 + Parameters
-    + resId: 11994846 (number,required) - The unique identifier for reservation
-    
-+ Request (application/json)
-   + Attributes (Account)
-   
-+ Response 200 (application/json)
-    + Attributes (Account)
-
-### Delete item [DELETE /account{?coaId}{?comId}]
-
-`In development`
-
-+ Parameters
-    + coaId: 213 - (nuber, required) - The unique identifier for account item
+    + coaId: 213 - (number, required) - The unique identifier for account item
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
 
 + Response 204 (application/json)
-
+    + Attributes (Account)
     
 ## Hotel [/hotel]
 
@@ -208,10 +224,14 @@ Identifying which application sends a request
 `In development`
 
 + Request (application/json)
-    
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
 + Response 200 (application/json)
     + Attributes (array[Hotel])
-
 
 ## Premises [/premise]
 
@@ -223,47 +243,49 @@ Identifying which application sends a request
     + obtId: 1 (number,required) - The unique identifier for premise type (1 - room, 2 - others)
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[PremiseKind])
 
-### Get list of premises [GET /premise{?obtId}]
+### Get list of premises [GET /premise]
 
 `In development`
 
-+ Parameters
-    + obtId: 1 (number,required) - The unique identifier for premise type (1 - room, 2 - others)
-
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[Premise])
 
-### Get premises with availability in term [GET /premise/availability{?obtId}{?from}{?to}]
+### Get premises with availability in term [GET /premise/availability{?from}{?to}]
 
 `In development`
 
 + Parameters
-    + obtId: 1 (number,required) - The unique identifier for premise type (1 - room, 2 - others)
     + from: `2017-04-12 14:30:00` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
     + to: `2017-04-16 12:30:00` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
 
 + Request (application/json)
-    
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
 + Response 200 (application/json)
+    
     + Attributes (array[PremiseAvailable])
 
-
 ## Meal [/meal]
-
-### Get list of meals [GET /meal]
-
-`In development`
-
-+ Request (application/json)
-    
-+ Response 200 (application/json)
-    + Attributes (array[Meal])
 
 ### Is meal avalible in term [GET /meal{?from}{?to}]
 
@@ -274,6 +296,11 @@ Identifying which application sends a request
     + to: `2017-04-16T12:30:00Z` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[MealAvalible])
@@ -289,6 +316,11 @@ Identifying which application sends a request
     + date: `2017-04-12T00:00:00Z` (string, required) - Load dashboatd data for this date (YYYY-MM-DD'T'HH:mm:ss'Z')
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (Dashboard)
@@ -305,6 +337,11 @@ Identifying which application sends a request
     + offset: 10 (number, optional) - Offset
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[Review])
@@ -341,6 +378,11 @@ Identifying which application sends a request
     + fulltext: Jonh Wick (string, optional) - Search in contact person by name, phone and email
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[ContactPerson])
@@ -353,6 +395,11 @@ Identifying which application sends a request
     + fulltext: Jonh Wick (string, optional) - Search in guest firtname, surname, email and phone
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[GuestSuggest])
@@ -365,6 +412,11 @@ Identifying which application sends a request
     + fulltext: SpaceX (string, optional) - Search in company name, IČ, DIČ
 
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[Company])
@@ -381,6 +433,11 @@ Identifying which application sends a request
     + curId: 1 (number, optional) - Currency id, set to hotel's currency by default
     
 + Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
     + Attributes (array[AccountItem])
@@ -400,6 +457,7 @@ Identifying which application sends a request
 
 ## Reservation
 + resId: 71994 (number, required) - The unique identifier for reservation
++ pin: NETA9Q (string, optional) - The unique code of reservation for My Alfred app
 + commissions (array[Commission], required)
 + contactPerson (ContactPerson, optional)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
@@ -410,13 +468,35 @@ Identifying which application sends a request
 + prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
 + cosId: 1 (number, required) - The unique identifier for status of commission
 + voucher: 20130704 (string, optional) - Voucher for commission
-+ termFrom: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
-+ termTo: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ pin: NETA9Q (string, optional) - The unique code of commission for My Alfred app
++ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
 + created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
 + optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
 + guests (array[Guest], required)
 + company (Company)
+
+## CommissionRequest
++ comId: 52225 (number, required) - The unique identifier for commission of reservation
++ objId: 6323 (number, required) - The unique identifier for the room
++ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
++ cosId: 1 (number, required) - The unique identifier for status of commission
++ voucher: 20130704 (string, optional) - Voucher for commission
++ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
++ optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
++ guests (array[Guest], required)
++ company (Company)
+
+## ReservationRequest
++ resId: 71994 (number, required) - The unique identifier for reservation
++ commissions (array[CommissionRequest], required)
++ contactPerson (ContactPerson, optional)
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
+
 
 ## ReservationCreate
 + commissions (array[CommissionCreate], required)
@@ -427,8 +507,8 @@ Identifying which application sends a request
 + objId: 6323 (number, required) - The unique identifier for the room
 + cosId: 1 (number, required) - The unique identifier for status of commission
 + objId: 6323 (number, required) - The unique identifier for the room
-+ termFrom: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
-+ termTo: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
 + optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
 + guestCount: 4 (number, required) - Count of guest
 + guestCountWithoutBed: 2 (number, optional) - Count of guest without bed
@@ -444,8 +524,8 @@ Identifying which application sends a request
 ## CommissionSuggest
 + comId: 643 (number, required) - The unique identifier for commission of reservation
 + cosId: 1 (number, required) - The unique identifier for status of commission
-+ termFrom: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
-+ termTo: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
 + guestName: Elon Musk (string, optional) - Name of first filled guest
 + guestCount: 3 (number, required) - Count of guest on this room
 + companyName: Previo - Name of company
@@ -511,25 +591,26 @@ Identifying which application sends a request
 
 ## CompanyIdentification
 + value: 233MK2 (string, optional) - Value of IČ, DIČ etc..
-+ type: 1 (number, required) - Type of company identification (CompanyIdentificationNumber)
++ identificationNumber: 1 (number, required) - Type of company identification (CompanyIdentificationNumber)
 
 ## Identity
 + number: N5646645 (string, optional)
 + guiId: 1 (number, optional) - The unique identifier for guest identity type
 
 ## Account
-+ curId: 1 (number,required) - The unique identifier for currency
++ resId: 11994846 (number,required) - The unique identifier for reservation
 + commisions (array[CommissionAccount])
 + group (GroupAccount)
 
 ## CommissionAccount
 + comId: 12484225 (number,required) - The unique identifier for commission of reservation
 + total: 200.21 (number, required) - Total price af room account
++ curId: 1 (number,required) - The unique identifier for currency
 + accountItems (array[AccountItem])
 
-## GroupAccount 
+## GroupAccount
 + total: 200.21 (number, required) - Total price af room account
-+ resId: 11994846 (number,required) - The unique identifier for reservation
++ curId: 1 (number,required) - The unique identifier for currency
 + accountItems (array[AccountItem])
 
 ## AccountItem
@@ -539,21 +620,29 @@ Identifying which application sends a request
 + price: 20.31 (number, required)
 + vatId: 1 (number, required) - The unique identifier for vat
 
+## AddAccountItem
++ coaId: 213 (number, optional) - The unique identifier for account item from suggest
++ name: Welness (string, required) - Name of item
++ count: 2 (number, required) - Count of this items at account
++ price: 20.31 (number, required)
++ vatId: 1 (number, required) - The unique identifier for vat
+
 ## Hotel
 + hotId: 14690 (number, required) - The unique identifier for hotel
 + name: Previo hotel (string, required) - Name of hotel
-+ licId: 1 (number, required) - The unique identifier for license: 2 - pro, 3 - lite, 4 - connect, 5 - bridge, 7 - school, 8 - eKasa
-+ arrival: `14:00:00Z` (string, required) - (HH:mm:ss'Z') Time of default check-in
-+ departure: `10:00:00Z` (string, required) - (HH:mm:ss'Z') Time of default check-out
-+ defaultCurrency: 1 (number, required) - Default currency for the hotel
-+ defaultMeal: 1 (number, required) - Default meal for hotel
-+ defaultGuestCategory: 1 (number, required) - Default guset category for the hotel
-+ guestCategory (array[GuestCategory])
-+ currencies (array[Currency])
++ licId: 1 (number, required) - The unique identifier for license: 2 - pro, 3 - lite, 4 - connect, 5 - bridge, 7 - school
++ isVATPayer: false (boolean, required) - Is the hotel a VAT payer
++ arrival: `14:00:00` (string, required) - (HH:mm:ss'Z') Time of default check-in
++ departure: `10:00:00` (string, required) - (HH:mm:ss'Z') Time of default check-out
++ defaultCurId: 1 (number, required) - Default currency for the hotel
++ defaultMeaId: 1 (number, required) - Default meal for hotel
++ defaultGuaId: 1 (number, required) - Default guset category for the hotel
++ guestCategories (array[GuestCategory], required)
++ currencies: 1, 2 (array[number], required) - Support currency by hotel (curId)
 
-## Currency 
+## Currency
 + curId: 1 (number, required) - The unique identifier for currency
-+ code: EUR (string, required)
++ code: EUR (string, required) - Code of currency (ISO 4217)
 
 ## GuestCategory
 + guaId: 1 (number, required) - The unique identifier for guest category
@@ -564,7 +653,6 @@ Identifying which application sends a request
 + name: Double (string, required) - Name of object type premise
 + capacity: 3 (number, required) - Number of bed
 + extraCapacity: 2 (number, required) - Number of extra bed
-+ count: 6 (number, required) - Total count of premise type
 
 ## Premise
 + objId: 6323 (number, required) - The unique identifier for the premise
@@ -573,16 +661,8 @@ Identifying which application sends a request
 
 ## PremiseAvailable
 + objId: 6323 (number, required) - The unique identifier for the premise
-+ hasStop: true (boolean, required) - There is a STOP on the premise in given term
++ isStop: true (boolean, required) - There is a STOP on the premise in given term
 + isOccupied: true (boolean, required) - There is a reservation/s going on in given term
-
-## PremiseStop
-+ objId: 1231 (number, required) - The unique identifier for the premise
-+ terms (array[Term]) - List of terms stops at premise
-
-## Term
-+ termFrom: `2017-05-21T10:59Z` (string, required) - Start at this date (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ termTo: `2017-05-21T10:59Z` (string, required) - End at this date (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 
 ## UserInfo
 + versionSupported: true (boolean, required) - Is version of aplication supported
@@ -676,8 +756,8 @@ Identifying which application sends a request
 + adrLastYear: 23 (number, required) - Adr for same date at last year
 
 ## Review
-+ termFrom: `2017-05-21T10:59Z` (string,required) - Date check-in reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
-+ termTo: `2017-05-23T10:59Z` (string,required) - Date check-out reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
++ startDate: `2017-05-21T10:59Z` (string,required) - Date check-in reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
++ endDate: `2017-05-23T10:59Z` (string,required) - Date check-out reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 + voucher: 557ER32 (string, required) - Voucher of commission
 + created: `2017-05-23T10:59Z` (string, required) - Date od created review (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
 + service: 2 (number, optional) - Services (1 to 10)
