@@ -354,11 +354,8 @@ Identifying which application sends a request
 `In development`
 
 + Parameters
-    + from: `2017-04-12T12:12:30` (string, optional) - Date check-in reservation (ISO 8601)
-    + to: `2017-04-16T22:32:12`(string, optional) - Date check-out reservation (ISO 8601)
-    + fulltext: Jonh Wick (string, optional) - Search in coucher, contact person by name, phone and email, company name, guest by name, phone and email (required send parametrs count and offset)
-    + count: 20 (number, optional) - Count of items in responce array
-    + offset: 40 (number, optional) - Offset of first item in array
+    + from: `2017-04-12T12:12:30` (string, required) - Date check-in reservation (ISO 8601)
+    + to: `2017-04-16T22:32:12`(string, required) - Date check-out reservation (ISO 8601)
 
 + Request (application/json)
     + Headers
