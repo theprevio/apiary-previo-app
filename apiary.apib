@@ -349,13 +349,16 @@ Identifying which application sends a request
 
 ## Suggest [/]
 
-### Get reservations by filter [GET /reservation/suggest{?from}{?to}{?fulltext}{?count}{?offset}]
+### Get reservations by filter [GET /suggest/reservations{?from}{?to}{?fulltext}{?count}{?offset}]
 
 `In development`
 
 + Parameters
-    + from: `2017-04-12T12:12:30` (string, required) - Date check-in reservation (ISO 8601)
-    + to: `2017-04-16T22:32:12`(string, required) - Date check-out reservation (ISO 8601)
+    + from: `2017-04-12T12:12:30` (string, optional) - Date check-in reservation (ISO 8601)
+    + to: `2017-04-16T22:32:12`(string, optional) - Date check-out reservation (ISO 8601)
+    + fulltext: Jonh Wick (string, optional) - Search in voucher, contact person by name, phone and email (required send parametrs count and offset)
+    + count: 20 (number, optional) - Count of items in responce array
+    + offset: 40 (number, optional) - Offset of first item in array
 
 + Request (application/json)
     + Headers
@@ -520,13 +523,16 @@ Identifying which application sends a request
 
 ## CommissionSuggest
 + comId: 643 (number, required) - The unique identifier for commission of reservation
++ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
 + cosId: 1 (number, required) - The unique identifier for status of commission
 + startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
 + endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
 + guestName: Elon Musk (string, optional) - Name of first filled guest
 + guestCount: 3 (number, required) - Count of guest on this room
 + companyName: Previo - Name of company
-+ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
++ objId: 569 (number, required) - The unique identifier for object
++ voucher: 20130704 (string, required) - Voucher for commission
+
 
 ## Guest
 + gueId: 9366 (number,optional) - The unique identifier for guest per hotel
