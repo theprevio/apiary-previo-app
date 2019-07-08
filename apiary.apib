@@ -104,15 +104,18 @@ Identifying which application sends a request
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
 
-    + Attributes (ReservationRequest)
+    + Attributes (ReservationUpdateRequest)
 
 + Response 200 (application/json)
     + Attributes (Reservation)
     
-### Update guests [PUT /guests]
+### Update guests [PUT /guests/{?comId}]
 
 `In development`
 
++ Parameters
+    + comId: 11994846 (number, required) - The unique identifier for commission
+    
 + Request (application/json)
     + Headers
 
@@ -120,10 +123,30 @@ Identifying which application sends a request
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
 
-    + Attributes (ReservationRequest)
+    + Attributes (array[Guest])
 
 + Response 200 (application/json)
-    + Attributes (Reservation)    
+    + Attributes (array[Guest])
+    
+    
+### Update company [PUT /company/{?comId}]
+
+`In development`
+
++ Parameters
+    + comId: 11994846 (number, required) - The unique identifier for commission
+    
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
+    + Attributes (array[Company])
+
++ Response 200 (application/json)
+    + Attributes (array[Company])
 
 ### Delete commission [DELETE /reservation/{?comId}]
 
@@ -507,12 +530,29 @@ Identifying which application sends a request
 + guests (array[Guest], required)
 + company (Company)
 
+## CommissionUpdateRequest
++ comId: 52225 (number, required) - The unique identifier for commission of reservation
++ objId: 6323 (number, required) - The unique identifier for the room
++ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
++ cosId: 1 (number, required) - The unique identifier for status of commission
++ voucher: 20130704 (string, optional) - Voucher for commission
++ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
++ optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
+
+## ReservationUpdateRequest
++ resId: 71994 (number, required) - The unique identifier for reservation
++ commissions (array[CommissionUpdateRequest], required)
++ contactPerson (ContactPerson, optional)
++ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
+
 ## ReservationRequest
 + resId: 71994 (number, required) - The unique identifier for reservation
 + commissions (array[CommissionRequest], required)
 + contactPerson (ContactPerson, optional)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
-
 
 ## ReservationCreate
 + commissions (array[CommissionCreate], required)
