@@ -108,6 +108,22 @@ Identifying which application sends a request
 
 + Response 200 (application/json)
     + Attributes (Reservation)
+    
+### Update guests [PUT /guests]
+
+`In development`
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
+    + Attributes (ReservationRequest)
+
++ Response 200 (application/json)
+    + Attributes (Reservation)    
 
 ### Delete commission [DELETE /reservation/{?comId}]
 
