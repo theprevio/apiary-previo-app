@@ -62,7 +62,7 @@ Identifying which application sends a request
 
 ### Get reservation [GET /reservation{?resId}{?comId}]
 
-`In development`
+Get a whole reservation object - supports group reservations.
 
 + Parameters
     + resId: 26345103 (number, required) - The unique identifier for group reservation
@@ -79,7 +79,7 @@ Identifying which application sends a request
 
 ### Save new reservation [POST]
 
-`In development`
+Create new reservation.
 
 + Request (application/json)
     + Headers
@@ -95,7 +95,7 @@ Identifying which application sends a request
 
 ### Update reservation [PUT /reservation]
 
-`In development`
+Update an existing reservation.
 
 + Request (application/json)
     + Headers
@@ -109,13 +109,13 @@ Identifying which application sends a request
 + Response 200 (application/json)
     + Attributes (Reservation)
     
-### Update guests [PUT /guests/{?comId}]
+### Create/Update guests [POST /guests/{?comId}]
 
-`In development`
+Update an existing guest, if `gueId` is specified.
+Create a new guest, when `gueId` is null.
 
-+ Parameters
-    + comId: 11994846 (number, required) - The unique identifier for commission
-    
+***UNTESTED**
+
 + Request (application/json)
     + Headers
 
@@ -129,13 +129,13 @@ Identifying which application sends a request
     + Attributes (array[Guest])
     
     
-### Update company [PUT /company/{?comId}]
+### Create/Update company [POST /company/{?comId}]
 
-`In development`
+Update company information if `parId` is specified.
+Create a new company, if `parId` is null.
 
-+ Parameters
-    + comId: 11994846 (number, required) - The unique identifier for commission
-    
+***UNTESTED**
+
 + Request (application/json)
     + Headers
 
@@ -150,7 +150,9 @@ Identifying which application sends a request
 
 ### Delete commission [DELETE /reservation/{?comId}]
 
-`In development`
+Delete one commission by `comId`.
+
+***UNTESTED**
 
 + Parameters
     + comId: 11994846 (number, required) - The unique identifier for commission
@@ -166,7 +168,9 @@ Identifying which application sends a request
 
 ### Delete reservation [DELETE /reservation/{?resId}]
 
-`In development`
+Delete a whole reservation by `resId`.
+
+***UNTESTED**
 
 + Parameters
     + resId: 11994846 (number, required) - The unique identifier for reservation
@@ -183,11 +187,14 @@ Identifying which application sends a request
 
 ## Account [/account]
 
-`!! SHOW ALL CAHNGES IN RESERVATION HISTORY !!`
+`!! SHOW ALL CHANGES IN RESERVATION HISTORY !!`
 
 ### Get account [GET /account{?resId}]
 
-`In development`
+Get the account information for a reservation by `resId`.
+All commissions with commission account info is returned.
+
+***UNTESTED**
 
 + Parameters
     + resId: 11994846 (number,required) - The unique identifier for reservation
@@ -204,7 +211,9 @@ Identifying which application sends a request
 
 ### Add item at account [POST /account{?resId}{?comId}]
 
-`In development`
+Add an item to reservation (group) account or a commissions (single) account.
+
+***UNTESTED**
 
 + Parameters
     + resId: 11994846 (number,optional) - The unique identifier for reservation (add item at group account)
@@ -225,8 +234,10 @@ Identifying which application sends a request
 
 ### Update account [PUT /account]
 
-`In development`
+Update a specific account item by `coaId`.
   
+***UNTESTED**
+
 + Request (application/json)
     + Headers
 
@@ -241,7 +252,9 @@ Identifying which application sends a request
 
 ### Delete item [DELETE /account{?coaId}]
 
-`In development`
+Delete a specific account item by `coaId`.
+
+***UNTESTED**
 
 + Parameters
     + coaId: 213 - (number, required) - The unique identifier for account item
@@ -260,7 +273,7 @@ Identifying which application sends a request
 
 ### Get hotels [GET /hotel]
 
-`In development`
+Get all hotels a signed up user belongs to.
 
 + Request (application/json)
     + Headers
@@ -276,7 +289,7 @@ Identifying which application sends a request
 
 ### Get list of premise kinds [GET /premise/kind{?obtId}]
 
-`In development`
+Get all premises kinds.
 
 + Parameters
     + obtId: 1 (number,required) - The unique identifier for premise type (1 - room, 2 - others)
@@ -293,7 +306,7 @@ Identifying which application sends a request
 
 ### Get list of premises [GET /premise]
 
-`In development`
+Get all premises.
 
 + Request (application/json)
     + Headers
@@ -308,6 +321,8 @@ Identifying which application sends a request
 ### Get premises with availability in term [GET /premise/availability{?from}{?to}]
 
 `In development`
+
+***UNTESTED**
 
 + Parameters
     + from: `2017-04-12 14:30:00` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -330,6 +345,8 @@ Identifying which application sends a request
 
 `In development`
 
+***UNTESTED**
+
 + Parameters
     + from: `2017-04-12T14:30:00Z` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
     + to: `2017-04-16T12:30:00Z` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -351,6 +368,8 @@ Identifying which application sends a request
 
 `In development`
 
+***UNTESTED**
+
 + Parameters
     + date: `2017-04-12T00:00:00Z` (string, required) - Load dashboatd data for this date (YYYY-MM-DD'T'HH:mm:ss'Z')
 
@@ -371,6 +390,8 @@ Identifying which application sends a request
 
 `In development`
 
+***UNTESTED**
+
 + Parameters
     + count: 50 (number, optional) - Count of return review
     + offset: 10 (number, optional) - Offset
@@ -390,7 +411,13 @@ Identifying which application sends a request
 
 ### Get reservations by filter [GET /suggest/reservations{?from}{?to}{?fulltext}{?count}{?offset}]
 
-`In development`
+Get all reservation filtered by:
+
+ - `from` (datetime in ISO 8601 format)
+ - `to` (datetime in ISO 8601 format)
+ - `fulltext` (string)
+ 
+This endpoint is used to search reservations and to display canvas as well.
 
 + Parameters
     + from: `2017-04-12T12:12:30` (string, optional) - Date check-in reservation (ISO 8601)
@@ -413,6 +440,10 @@ Identifying which application sends a request
 
 `In development`
 
+Get a contact person by `fulltext` query.
+
+***UNTESTED**
+
 + Parameters
     + fulltext: Jonh Wick (string, optional) - Search in contact person by name, phone and email
 
@@ -430,6 +461,10 @@ Identifying which application sends a request
 
 `In development`
 
+Get a guest by `fulltext` query.
+
+***UNTESTED**
+
 + Parameters
     + fulltext: Jonh Wick (string, optional) - Search in guest firtname, surname, email and phone
 
@@ -445,7 +480,7 @@ Identifying which application sends a request
 
 ### Company [GET /suggest/company{?fulltext}]
 
-`In development`
+Get a company by `fulltext` query.
 
 + Parameters
     + fulltext: SpaceX (string, optional) - Search in company name, IČ, DIČ
@@ -463,6 +498,10 @@ Identifying which application sends a request
 ### Account Items [GET /suggest/accountItems{?fulltext}{?obkId}{?from}{?to}{?curId}]
 
 `In development`
+
+Get account items by `fulltext` query.
+
+***UNTESTED**
 
 + Parameters
     + fulltext: vine (string, optional) - Search by query, result is limited when fulltext is empty
@@ -486,8 +525,15 @@ Identifying which application sends a request
 
 ### Code books [GET /system/codeBook]
 
-`In development`
-            
+Get all codebooks application needs:
+ 
+ - `commissionStatuses`
+ - `partners` - list of Previo Partners
+ - `countries`
+ - `vats`
+ - `licences`
+ - `companyIdentificationNumbers`
+ 
 + Response 200 (application/json)
     + Attributes (CodeBook)
 
@@ -602,7 +648,7 @@ Identifying which application sends a request
 + recreation: Work trip (string, optional) 
 + birthDate: `2017-05-24T00:00:00` (string, optional) - (ISO 8601)
 + birthPlace: Ostrava (string, optional) - Place of birth
-+ genId: 1 (number, required) - The unique identifier for guest gender (genId is not allowed!! genId is from static code book)
++ sex: m (string, optional) - The unique identifier for guest gender ('m'- male; 'f'- female)
 + address (AddressGuest, required)
 + visa: 324ERTCVGHJIU (string, optional)
 + numberPlate: 7A7 2K3S (string, optional) - Number plate of guest`s car
@@ -616,7 +662,7 @@ Identifying which application sends a request
 + email: radim@vaculik.cz (string, optional)
 + phone: +420 421 123 987 (string, optional)
 + birthDate: `2017-05-24T00:00:00Z` (string, optional) - (YYYY-MM-DD'T'HH:mm:ss'Z') https://cs.wikipedia.org/wiki/ISO_8601
-+ genId: 1 (number, required) - The unique identifier for guest gender (genId is not allowed!! genId is from static code book)
++ sex: m (string, optional) - The unique identifier for guest gender ('m'- male; 'f'- female)
 + address (AddressGuest, required)
 + visa: 324ERTCVGHJIU (string, optional)
 + numberPlate: 7A7 2K3S (string, optional) - Number plate of guest`s car
