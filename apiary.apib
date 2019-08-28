@@ -136,8 +136,6 @@ Create a new guest, when `gueId` is null.
 Update company information if `parId` is specified.
 Create a new company, if `parId` is null.
 
-***UNTESTED**
-
 + Request (application/json)
     + Headers
 
@@ -686,15 +684,15 @@ Get all codebooks application needs:
 + parId: 2412 (number, optional) - The unique identifier for company
 + shortcut: Previo (string, optional)
 + name: Previo s.r.o. (string, optional)
-+ address (AddressCompany, required)
-+ companyIdentifications (array[CompanyIdentification], required)
++ address (AddressCompany, optional)
++ companyIdentifications (array[CompanyIdentification], optional)
 
 ## AddressCompany
 + street: Panska (string, optional)
 + streetNumber: 6 (string, optional)
 + city: Brno (string, optional)
 + zip: 60200 (string, optional)
-+ couId: 1 (number, required) - The unique identifier for country
++ couId: 1 (number, optional) - The unique identifier for country
 
 ## CompanyIdentification
 + value: 233MK2 (string, optional) - Value of IČ, DIČ etc..
