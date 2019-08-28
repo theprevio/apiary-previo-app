@@ -123,13 +123,15 @@ Create a new guest, when `gueId` is null.
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
 
-    + Attributes (array[Guest])
+    + Attributes
+         + comId: 123
+         + guests (array[Guest])
 
 + Response 200 (application/json)
     + Attributes (array[Guest])
     
     
-### Create/Update company [POST /company/{?comId}]
+### Create/Update company [POST /reservation/company/{?comId}]
 
 Update company information if `parId` is specified.
 Create a new company, if `parId` is null.
@@ -579,7 +581,7 @@ Get all codebooks application needs:
 ## CommissionUpdateRequest
 + comId: 52225 (number, required) - The unique identifier for commission of reservation
 + objId: 6323 (number, required) - The unique identifier for the room
-+ prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
++ parId: 1 (number, optional) - The unique identifier for Partner (company)
 + cosId: 1 (number, required) - The unique identifier for status of commission
 + voucher: 20130704 (string, optional) - Voucher for commission
 + startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
@@ -616,7 +618,7 @@ Get all codebooks application needs:
 + guestCountWithoutBed: 2 (number, optional) - Count of guest without bed
 + voucher: 20130704 (string, optional) - Voucher for commission
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
-+ company (Company)
++ parId: 42 (number, optional) - Partner Id (Company)
 
 ## ReservationSuggest
 + resId: 71994 (number, required) - The unique identifier for reservation
