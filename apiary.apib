@@ -39,6 +39,34 @@ X-Previo-Hotel-ID: {hotId}
 Identifying which application sends a request
 - **`1` - Previo PMS app**
 
+## Authentication [/authentication]
+
+### Get access token [GET /authentication/accessToken{?code}]
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            
++ Response 200 (application/json)
+    + Attributes (Authentication)
+
+
+### Refresh access token [GET /authentication/refreshToken{?refreshToken}]
+
++ Request (application/json)
+    + Headers
+
+            X-Previo-App-ID: 1
+            Accept-Language: cs
+            X-Previo-Hotel-ID: {hotId}
+
++ Parameters
+    + refreshToken: 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDW (string,required) - The refresh token.
+    
++ Response 200 (application/json)
+
 
 ## User [/user]
 
@@ -51,11 +79,55 @@ Identifying which application sends a request
 + Request (application/json)
     + Headers
 
-            Authorization: {Base64(userEmail:password)}
+            Authorization: Bearer 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDWfs556
             X-Previo-App-ID: 1
+            Accept-Language: cs
+            X-Previo-Hotel-ID: {hotId}
 
 + Response 200 (application/json)
     + Attributes (UserInfo)
+
+### Get notiffication settings [GET /user/notificationSettings]
+
+Structure:
+    [
+     'CommissionNew'    => ['Partner', 'Web', 'Canvas', 'Tip'],
+     'CommissionStorno' => ['Partner', 'Canvas', 'Tip'],
+     'UserTip'          => ['Partner', 'Web'],
+    ];
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDWfs556
+            X-Previo-App-ID: 1
+            Accept-Language: cs
+            X-Previo-Hotel-ID: {hotId}
+
++ Response 200 (application/json)
+    + Attributes (NotificationSettings)
+
+### Update notiffication settings [POST /user/notificationSettings]
+
+Structure:
+    [
+     'CommissionNew'    => ['Partner', 'Web', 'Canvas', 'Tip'],
+     'CommissionStorno' => ['Partner', 'Canvas', 'Tip'],
+     'UserTip'          => ['Partner', 'Web'],
+    ];
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDWfs556
+            X-Previo-App-ID: 1
+            Accept-Language: cs
+            X-Previo-Hotel-ID: {hotId}
+            
+    + Attributes (NotificationSettings)
+
++ Response 200 (application/json)
+    + Attributes (NotificationSettings)
 
 
 ## Reservation [/reservation]
@@ -77,25 +149,13 @@ Get a whole reservation object - supports group reservations.
 + Response 200 (application/json)
     + Attributes (Reservation)
 
-### Save new reservation [POST]
+### Create/Update reservation [POST /reservation/{?isRecalculatePrice}]
 
-Create new reservation.
+Create/Update reservation.
+If resId set, then update reservation
 
-+ Request (application/json)
-    + Headers
-
-            Authorization: {Base64(userEmail:password)}
-            X-Previo-App-ID: 1
-            X-Previo-Hotel-ID: {hotId}
-
-    + Attributes (ReservationCreate)
-
-+ Response 200 (application/json)
-    + Attributes (Reservation)
-
-### Update reservation [PUT /reservation]
-
-Update an existing reservation.
++ Parameters
+    + isRecalculatePrice: true (bool, required) - If true price recalculate
 
 + Request (application/json)
     + Headers
@@ -103,18 +163,18 @@ Update an existing reservation.
             Authorization: {Base64(userEmail:password)}
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
-
-    + Attributes (ReservationUpdateRequest)
-
-+ Response 200 (application/json)
-    + Attributes (Reservation)
+            
     
-### Create/Update guests [POST /guests/{?comId}]
+    + Attributes (ReservationRequest)
+
++ Response 200 (application/json)
+    + Attributes (Reservation)
+
+### Create/Update guests [POST /reservation/guest{?comId}]
 
 Update an existing guest, if `gueId` is specified.
 Create a new guest, when `gueId` is null.
-
-***UNTESTED**
+All guests of the commission should be included in the call.
 
 + Request (application/json)
     + Headers
@@ -124,13 +184,13 @@ Create a new guest, when `gueId` is null.
             X-Previo-Hotel-ID: {hotId}
 
     + Attributes
-         + comId: 123
+         + comId: 52225 (number, required) - The unique identifier for commission of reservation
          + guests (array[Guest])
 
 + Response 200 (application/json)
     + Attributes (array[Guest])
     
-    
+
 ### Create/Update company [POST /reservation/company/]
 
 Update company information if `parId` is specified.
@@ -143,10 +203,10 @@ Create a new company, if `parId` is null.
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
 
-    + Attributes (array[Company])
+    + Attributes (Company)
 
 + Response 200 (application/json)
-    + Attributes (array[Company])
+    + Attributes (Company)
 
 ### Delete commission [DELETE /reservation/{?comId}]
 
@@ -189,15 +249,16 @@ Delete a whole reservation by `resId`.
 
 `!! SHOW ALL CHANGES IN RESERVATION HISTORY !!`
 
-### Get account [GET /account{?resId}]
+### Get account [GET /account{?resId}{?comId}]
 
-Get the account information for a reservation by `resId`.
-All commissions with commission account info is returned.
-
-***UNTESTED**
+Get the account information for a reservation by `resId` or `comId`
+If resId is defined, all commissions with commission account info is returned.
+If comId is defined, only a commission account info is returned.
 
 + Parameters
-    + resId: 11994846 (number,required) - The unique identifier for reservation
+    + resId: 11994846 (number,optional) - The unique identifier for reservation
+    + comId: 12785431 (number,optional) - The unique identifier for commission. 
+    If comId is not set, then return group account.
     
 + Request (application/json)
     + Headers
@@ -207,54 +268,51 @@ All commissions with commission account info is returned.
             X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
-    + Attributes (Account)
+    + Attributes (CommissionAccount)
 
-### Add item at account [POST /account{?resId}{?comId}]
+### Add/Update item at account [POST /account{?comId}{?isGroup}]
 
-Add an item to reservation (group) account or a commissions (single) account.
-
-***UNTESTED**
+Add/Update an item to reservation (group) account or a commissions (single) account.
 
 + Parameters
-    + resId: 11994846 (number,optional) - The unique identifier for reservation (add item at group account)
-    + comId: 11994846 (number,optional) - The unique identifier for commission of reservation (add item at room/commission account)
-    
+    + comId: 11994846 (number,required) - The unique identifier for commission of reservation (add item at room/commission account)
+    + isGroup: true (bool,required) - If isGroup si true, then the item is added/updated to the group account    
 + Request (application/json)
     + Headers
-
+    
             Authorization: {Base64(userEmail:password)}
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
     
-
    + Attributes (AddAccountItem)
 
 + Response 200 (application/json)
-    + Attributes (Account)
+    + Attributes (CommissionAccount)
 
-### Update account [PUT /account]
+    
+### Get recalculate price [POST /account/recalculatePrice{?comId}{?isGroup}]
 
-Update a specific account item by `coaId`.
-  
-***UNTESTED**
+Get old account and new recalculate account.
 
 + Request (application/json)
     + Headers
-
+    
             Authorization: {Base64(userEmail:password)}
             X-Previo-App-ID: 1
             X-Previo-Hotel-ID: {hotId}
+    
+   + Attributes (ReservationRequest)
 
-   + Attributes (AccountItem)
-   
 + Response 200 (application/json)
-    + Attributes (Account)
+    + Attributes
+        + oldAccount: [CommissionItem] (required)
+        + newAccount: [CommissionItem] (required) 
+        
+    
 
 ### Delete item [DELETE /account{?coaId}]
 
 Delete a specific account item by `coaId`.
-
-***UNTESTED**
 
 + Parameters
     + coaId: 213 - (number, required) - The unique identifier for account item
@@ -267,7 +325,7 @@ Delete a specific account item by `coaId`.
             X-Previo-Hotel-ID: {hotId}
 
 + Response 204 (application/json)
-    + Attributes (Account)
+    + Attributes (CommissionAccount)
     
 ## Hotel [/hotel]
 
@@ -530,6 +588,10 @@ Get all codebooks application needs:
  - `commissionStatuses`
  - `partners` - list of Previo Partners
  - `countries`
+ - `currencies`
+ - `identityTypes`
+ - `accountRecalculationModels`
+ - `meals`
  - `vats`
  - `licences`
  - `companyIdentificationNumbers`
@@ -539,6 +601,11 @@ Get all codebooks application needs:
 
 
 ## Data Structure
+
+## Authentication
++ accessToken: 7e8HVcDWhnHnQCL8wqvKM95c7e8HVcDW (string,required) - Access token to be used when acessing resources.
++ tokenType: Bearer (string, required) - The type of the token issued - in this case it will allways be Bearer.
++ refreshToken: 6T8pcDWhnHnQCL8wqvKM95c7e8HVcDW (string,required) - The refresh token, which can be used to obtain new access tokens.
 
 ## Reservation
 + resId: 71994 (number, required) - The unique identifier for reservation
@@ -559,11 +626,14 @@ Get all codebooks application needs:
 + created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
 + optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
++ isLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
++ guestCount: 3 (number, required) - Count of guests on this room
++ guestsCountWithoutBed: 2 (number, optional) -  Number of guests from extra bed category
 + guests (array[Guest], required)
 + company (Company)
 
 ## CommissionRequest
-+ comId: 52225 (number, required) - The unique identifier for commission of reservation
++ comId: 52225 (number, optional) - The unique identifier for commission of reservation. If comId set, then update commission
 + objId: 6323 (number, required) - The unique identifier for the room
 + prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
 + cosId: 1 (number, required) - The unique identifier for status of commission
@@ -573,50 +643,15 @@ Get all codebooks application needs:
 + created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
 + optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
-+ guests (array[Guest], required)
-+ company (Company)
-
-## CommissionUpdateRequest
-+ comId: 52225 (number, required) - The unique identifier for commission of reservation
-+ objId: 6323 (number, required) - The unique identifier for the room
-+ parId: 1 (number, optional) - The unique identifier for Partner (company)
-+ cosId: 1 (number, required) - The unique identifier for status of commission
-+ voucher: 20130704 (string, optional) - Voucher for commission
-+ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
-+ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
-+ created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
-+ optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
-+ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
-
-## ReservationUpdateRequest
-+ resId: 71994 (number, required) - The unique identifier for reservation
-+ commissions (array[CommissionUpdateRequest], required)
-+ contactPerson (ContactPerson, optional)
-+ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
++ isLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
++ guestsCount: 3 (number, optional) -  Number of guests in commission
++ guestsCountWithoutBed: 2 (number, optional) -  Number of guests from extra bed category
 
 ## ReservationRequest
-+ resId: 71994 (number, required) - The unique identifier for reservation
++ resId: 71994 (number, optional) - The unique identifier for reservation. If resId set, then update reservation
 + commissions (array[CommissionRequest], required)
 + contactPerson (ContactPerson, optional)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
-
-## ReservationCreate
-+ commissions (array[CommissionCreate], required)
-+ contactPerson (ContactPerson, optional)
-+ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the reservations with <b> <i> <u> HTML tags
-
-## CommissionCreate
-+ objId: 6323 (number, required) - The unique identifier for the room
-+ cosId: 1 (number, required) - The unique identifier for status of commission
-+ objId: 6323 (number, required) - The unique identifier for the room
-+ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
-+ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
-+ optionExpiration: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
-+ guestCount: 4 (number, required) - Count of guest
-+ guestCountWithoutBed: 2 (number, optional) - Count of guest without bed
-+ voucher: 20130704 (string, optional) - Voucher for commission
-+ note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
-+ parId: 42 (number, optional) - Partner Id (Company)
 
 ## ReservationSuggest
 + resId: 71994 (number, required) - The unique identifier for reservation
@@ -630,7 +665,7 @@ Get all codebooks application needs:
 + startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
 + endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
 + guestName: Elon Musk (string, optional) - Name of first filled guest
-+ guestCount: 3 (number, required) - Count of guest on this room
++ guestCount: 3 (number, required) - Count of guests on this room
 + companyName: Previo - Name of company
 + objId: 569 (number, required) - The unique identifier for object
 + voucher: 20130704 (string, required) - Voucher for commission
@@ -702,16 +737,21 @@ Get all codebooks application needs:
 + number: N5646645 (string, optional)
 + guiId: 1 (number, optional) - The unique identifier for guest identity type
 
-## Account
-+ resId: 11994846 (number,required) - The unique identifier for reservation
-+ commisions (array[CommissionAccount])
-+ group (GroupAccount)
+## IdentityType
++ guiId: 2 (number, required)
++ name: passport (string, required) - Name of identity type
+
+## AccountRecalculationModel
++ armId: 1 (number, optional)
++ name: chci přepočítávat s potvrzením (string, optional) - Name of account recalculation model
++ description: Po změně parametrů rezervace se účet rezervace automaticky přepočítá a případné změny musí potvrdit uživatel. (string, optional) - Description of account recalculation model
 
 ## CommissionAccount
-+ comId: 12484225 (number,required) - The unique identifier for commission of reservation
++ comId: 52225 (number, optional) - The unique identifier for commission of reservation
 + total: 200.21 (number, required) - Total price af room account
++ paid: 120 (number, required) - Amount paid
 + curId: 1 (number,required) - The unique identifier for currency
-+ accountItems (array[AccountItem])
++ items (array[AccountItem])
 
 ## GroupAccount
 + total: 200.21 (number, required) - Total price af room account
@@ -724,6 +764,10 @@ Get all codebooks application needs:
 + count: 2 (number, required) - Count of this items at account
 + price: 20.31 (number, required)
 + vatId: 1 (number, required) - The unique identifier for vat
++ stoId: 256 (number, optional) - If it is a stock item, then value is integer, else null
++ styId: 958 (number, optional) - If it is a stay package, then value is integer, else null
++ pckId: 15656 (number, optional) - If it is a package, then value is integer, else null
++ position: 1 (number, optional) - Set position of account 1 is top.
 
 ## AddAccountItem
 + coaId: 213 (number, optional) - The unique identifier for account item from suggest
@@ -731,23 +775,30 @@ Get all codebooks application needs:
 + count: 2 (number, required) - Count of this items at account
 + price: 20.31 (number, required)
 + vatId: 1 (number, required) - The unique identifier for vat
++ stoId: 256 (number, optional) - If it is a stock item, then value is integer, else null
++ styId: 958 (number, optional) - If it is a stay package, then value is integer, else null
++ pckId: 15656 (number, optional) - If it is a package, then value is integer, else null
++ position: 1 (number, optional) - Set position of account 1 is top.
 
 ## Hotel
 + hotId: 14690 (number, required) - The unique identifier for hotel
 + name: Previo hotel (string, required) - Name of hotel
 + licId: 1 (number, required) - The unique identifier for license: 2 - pro, 3 - lite, 4 - connect, 5 - bridge, 7 - school
 + isVATPayer: false (boolean, required) - Is the hotel a VAT payer
++ armId: 1 (number, required) - ID for Account recalculation models: 1 - recalculate after confirmation, 2 - recalculate without confirmation, 3 - do not recalculate
 + arrival: `14:00:00` (string, required) - (HH:mm:ss'Z') Time of default check-in
 + departure: `10:00:00` (string, required) - (HH:mm:ss'Z') Time of default check-out
 + defaultCurId: 1 (number, required) - Default currency for the hotel
 + defaultMeaId: 1 (number, required) - Default meal for hotel
-+ defaultGuaId: 1 (number, required) - Default guset category for the hotel
++ defaultGuaId: 1 (number, required) - Default guest category for the hotel
 + guestCategories (array[GuestCategory], required)
 + currencies: 1, 2 (array[number], required) - Support currency by hotel (curId)
 
 ## Currency
 + curId: 1 (number, required) - The unique identifier for currency
 + code: EUR (string, required) - Code of currency (ISO 4217)
++ symbol: € (string, required) - Symbol of currency
++ position: left (string, required) - Position of currency symbol
 
 ## GuestCategory
 + guaId: 1 (number, required) - The unique identifier for guest category
@@ -773,6 +824,16 @@ Get all codebooks application needs:
 + versionSupported: true (boolean, required) - Is version of aplication supported
 + newerVersion: false (boolean, required) - Is avalible newer version
 + permission (Permission, required) - Listed permissions for users
+
+## NotificationSettings
++ 1: 1, 2, 3 (array[number]) - Key is notification type as CommissionNew, CommissionStorno, UserTip
++ 2: 1, 2, 3 (array[number]) - Key is notification type as CommissionNew, CommissionStorno, UserTip
++ 3: 4 (array[number]) - Key is notification type as UserTip
+
+## NotificationSubject
++ 0:1 (number, optional) - Value is notification subject as 'Partner', 'Web', 'Canvas', 'Tip'
++ 1:2 (number, optional) - Value is notification subject as 'Partner', 'Web', 'Canvas', 'Tip'
++ 2:3 (number, optional) - Value is notification subject as 'Partner', 'Web', 'Canvas', 'Tip'
 
 ## Permission
 + modules (ModulePermission, required) - Permission to view the module
@@ -809,7 +870,12 @@ Get all codebooks application needs:
 + editHotelAccountEditItemPriceEdit: true (boolean, required) - Permission for changing price on room account
 + editHotelAccountItemRemove: true (boolean, required) - Permission for changing deleting items on room account
 + editReservationNoteEdit: true (boolean, required) - Permission for editing reservation note
-+ editHotelAccountOwnItemAdd: true (boolean, required) - Permission for adding new item on hotel account
++ editHotelAccountOwnItemAdd: true (boolean, required) - Permission for adding new own item on hotel account
++ editLock: true (boolean, required) - Permission for locking the reservation
++ editUnlock: true (boolean, required) - Permission for unlocking the reservation
++ editHotelAccountItemFromWhispererAdd: true (boolean, required) - Permission for adding new suggested item on hotel account (aka https://www.csfd.cz/film/7598-zarikavac-koni/prehled/)
++ editHotelAccountEditItemNameEdit: true (boolean, required) - Permission for editing item name
++ editHotelAccountEditItemCountEdit: true (boolean, required) - Permission for editing item count
 
 ## CompanyPermission
 + add: true (boolean, required) - Permission for add company 
@@ -881,6 +947,10 @@ Get all codebooks application needs:
 + commissionStatuses (array[ComissionStatus])
 + partners (array[Partner])
 + countries (array[Country]
++ currencies (array[Currency])
++ identityTypes (array[IdentityType])
++ accountRecalculationModels (array[AccountRecalculationModel])
++ meals (array[Meal])
 + vats (array[Vat])
 + licences (array[License])
 + companyIdentificationNumbers (array[CompanyIdentificationNumber])
@@ -897,7 +967,7 @@ Get all codebooks application needs:
 + logo: https://files.previo.cz/previoPartner/50x50/1.gif (string, required) - URL to partner logo
 
 ## Country
-+ couId: 1 (number, required) - The unique identifier for country
++ coutId: 1 (number, required) - The unique identifier for country
 + name: Czechia (string, required)
 
 ## Vat
