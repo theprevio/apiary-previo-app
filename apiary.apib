@@ -397,6 +397,23 @@ Get all premises.
     
     + Attributes (array[PremiseAvailable])
 
+### Get stop sales on canvas [GET /premise/closed{?from}{?to}]
+
++ Parameters
+    + from: `2019-01-12T14:30:00Z` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
+    + to: `2020-04-16T12:30:00Z` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
++ Response 200 (application/json)
+    
+    + Attributes (StopSales)
+
 ## Meal [/meal]
 
 ### Is meal avalible in term [GET /meal{?from}{?to}]
@@ -954,6 +971,14 @@ Get all codebooks application needs:
 + vats (array[Vat])
 + licences (array[License])
 + companyIdentificationNumbers (array[CompanyIdentificationNumber])
+
+##StopSales
++ objId: 6323 (number, required) - The unique identifier for the room
++ startDate: `2017-05-21T10:59Z` (string,required) - Date check-in reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
++ endDate: `2017-05-23T10:59Z` (string,required) - Date check-out reservation (YYYY-MM-DDTHH:mm:ssZ) https://cs.wikipedia.org/wiki/ISO_8601
++ id: closed-618907-56886765 (string, required) - The unique identifier for stopSales
++ type: 1 (number, required) - 1 : Closed, 5 : Availability
++ cls: "zone-closed" (string, required) - icon on admin canvas
 
 ## ComissionStatus
 + cosId: 1 (number, required) - The unique identifier for commission status
