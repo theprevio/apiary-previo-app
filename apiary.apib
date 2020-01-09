@@ -378,10 +378,6 @@ Get all premises.
 
 ### Get premises with availability in term [GET /premise/availability{?from}{?to}]
 
-`In development`
-
-***UNTESTED**
-
 + Parameters
     + from: `2017-04-12 14:30:00` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
     + to: `2017-04-16 12:30:00` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -396,6 +392,24 @@ Get all premises.
 + Response 200 (application/json)
     
     + Attributes (array[PremiseAvailable])
+
+### Get free premises [GET /premise/freeObjects{?from}{?to}{?comId}]
+
++ Parameters
+    + from: `2017-04-12 14:30:00` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
+    + to: `2017-04-16 12:30:00` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
+    + comId: 11994846 (number,optional) - The unique identifier for commission of reservation
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
++ Response 200 (application/json)
+    
+    + Attributes (FreeObjects)
 
 ### Get stop sales on canvas [GET /premise/closed{?from}{?to}]
 
@@ -847,6 +861,11 @@ Get all codebooks application needs:
 + objId: 6323 (number, required) - The unique identifier for the premise
 + isStop: true (boolean, required) - There is a STOP on the premise in given term
 + isOccupied: true (boolean, required) - There is a reservation/s going on in given term
+
+## FreeObjects
++ free: 622777,622466,622467 (array[number], required) - Free objects
++ freeOnClosed: 618315,621898 (array[number], required) - Free objects on stop sales
++ freeOnContingent: 622464 (array[number], required) - Free objects contingent
 
 ## UserInfo
 + versionSupported: true (boolean, required) - Is version of aplication supported
