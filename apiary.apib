@@ -608,6 +608,7 @@ Get all codebooks application needs:
  - `currencies`
  - `identityTypes`
  - `accountRecalculationModels`
+ - `accountItemTypes`
  - `meals`
  - `vats`
  - `licences`
@@ -763,6 +764,14 @@ Get all codebooks application needs:
 + name: chci přepočítávat s potvrzením (string, optional) - Name of account recalculation model
 + description: Po změně parametrů rezervace se účet rezervace automaticky přepočítá a případné změny musí potvrdit uživatel. (string, optional) - Description of account recalculation model
 
+## AccountItemTypeModel
++ aitId: 5 (number, required)
++ name: Ubytování (string, required) - Name of account item type
++ automated: true (boolean, required) - false - non-automated account item type, true - automated account item type
++ issued: true (boolean, required) - true - automatically issued account item type - generated automatically from price settings using account issuer, false - manually added account item
++ affectedByAccommodation: true (boolean, required) - true - account item price may be affected by the accommodation price, false - account item price is independent of the accommodation price
++ partOfAccommodation: true (boolean, required) - true - account item of this type is part of the accommodation (partner bonuses are calculated from these account items), false - account item of this type is not part of the accommodation
+
 ## CommissionAccount
 + comId: 52225 (number, optional) - The unique identifier for commission of reservation
 + total: 200.21 (number, required) - Total price af room account
@@ -787,7 +796,8 @@ Get all codebooks application needs:
 + position: 1 (number, optional) - Set position of account 1 is top.
 
 ## AddAccountItem
-+ coaId: 213 (number, optional) - The unique identifier for account item from suggest
++ coaId: 213 (number, required) - The unique identifier for account item from suggest
++ aitId: 5 (number, required) - 'Account item type ID'
 + name: Welness (string, required) - Name of item
 + count: 2 (number, required) - Count of this items at account
 + price: 20.31 (number, required)
@@ -967,6 +977,7 @@ Get all codebooks application needs:
 + currencies (array[Currency])
 + identityTypes (array[IdentityType])
 + accountRecalculationModels (array[AccountRecalculationModel])
++ accountItemTypes (array[AccountItemTypeModel])
 + meals (array[Meal])
 + vats (array[Vat])
 + licences (array[License])
