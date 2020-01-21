@@ -550,7 +550,7 @@ This endpoint is used to search reservations and to display canvas as well.
             X-Previo-Hotel-ID: {hotId}
 
 + Response 200 (application/json)
-    + Attributes (array[ReservationSuggest])
+    + Attributes (array[FindReservationSuggest])
 
 ### Contact person [GET /suggest/contactPerson{?fulltext}]
 
@@ -728,8 +728,23 @@ Get all codebooks application needs:
 + startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
 + endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
 + voucher: 20130704 (string, required) - Voucher for commission
-+ commissions (array[CommissionSuggest], required)
-+ contactPersonName: Elon Musk (string, optional) - Name of contact person
++ objName: Suite (string, required) - Name of object
++ obkName: Suite (string, required) - Name of kind object
++ partnerName: Elon Musk (string, optional) - Name of partner
++ contactName: Elona Muskova (string, optional) - Contact name
++ contactPhone: +420758963741 (string, optional) - Contact phone
++ contactEmail: elon@spacex.com (string, optional) - Contact email
++ guestNames: Elon Musk (string, optional) - Names of guests
++ schIds: [1,5,9] (array, optional) - Ids of schedulers
++ isGroup: false (boolean, required) - Is group or single reservation
++ isOnActiveScheduler: false (boolean, required) - Is on activate scheduler
++ commissionsCount: 3 (number, required) - Count of commission
++ displayString: 18.7.2019 - 19.7.2019 | * | 20170155 | Elon Musk (string, required) - Title in scheduler
++ type: 0 (number, required) - Commission type 0 - basic, 1 - floating
++ associatedComIds: [158978,58989,98898] (array, optional) - Associated com ids
++ guestCount: 2 (number, required) - Count of guests
++ guestCountWithoutBed: 2 (number, required) - Count guests without bed
+
 
 ## CommissionSuggest
 + comId: 643 (number, required) - The unique identifier for commission of reservation
