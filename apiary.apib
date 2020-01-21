@@ -498,7 +498,34 @@ Get all premises.
 
 ## Suggest [/]
 
-### Get reservations by filter [GET /suggest/reservations{?from}{?to}{?fulltext}{?count}{?offset}]
+### Get reservations for canvas by filter [GET /suggest/reservationsForCanvas{?from}{?to}{?fulltext}{?count}{?offset}]
+
+Get all reservation filtered by:
+
+ - `from` (datetime in ISO 8601 format)
+ - `to` (datetime in ISO 8601 format)
+ - `fulltext` (string)
+ 
+This endpoint is used to search reservations and to display canvas as well.
+
++ Parameters
+    + from: `2017-04-12T12:12:30` (string, optional) - Date check-in reservation (ISO 8601)
+    + to: `2017-04-16T22:32:12`(string, optional) - Date check-out reservation (ISO 8601)
+    + fulltext: Jonh Wick (string, optional) - Search in voucher, contact person by name, phone and email (required send parametrs count and offset)
+    + count: 20 (number, optional) - Count of items in responce array
+    + offset: 40 (number, optional) - Offset of first item in array
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
++ Response 200 (application/json)
+    + Attributes (array[ReservationSuggest])
+
+### Get find reservations by filter [GET /suggest/findReservations{?from}{?to}{?fulltext}{?count}{?offset}]
 
 Get all reservation filtered by:
 
@@ -687,6 +714,20 @@ Get all codebooks application needs:
 
 ## ReservationSuggest
 + resId: 71994 (number, required) - The unique identifier for reservation
++ commissions (array[CommissionSuggest], required)
++ contactPersonName: Elon Musk (string, optional) - Name of contact person
+
+## FindReservationSuggest
++ comId: 643 (number, required) - The unique identifier for commission of reservation
++ resId: 71994 (number, required) - The unique identifier for reservation
++ objId: 569 (number, required) - The unique identifier for object
++ obkId: 2341 (number, required) - The unique identifier for premise kind
++ cosId: 1 (number, required) - The unique identifier for status of commission
++ curId: 1 (number,required) - The unique identifier for currency
++ parId: 2412 (number, optional) - The unique identifier for company
++ startDate: `2018-01-21T10:59` (string, required) - Date check-in reservation (ISO 8601)
++ endDate: `2018-02-03T10:59` (string, required) - Date check-out reservation (ISO 8601)
++ voucher: 20130704 (string, required) - Voucher for commission
 + commissions (array[CommissionSuggest], required)
 + contactPersonName: Elon Musk (string, optional) - Name of contact person
 
