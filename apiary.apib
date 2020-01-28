@@ -432,10 +432,6 @@ Get all premises.
 
 ### Is meal avalible in term [GET /meal{?from}{?to}]
 
-`In development`
-
-***UNTESTED**
-
 + Parameters
     + from: `2017-04-12T14:30:00Z` (string, required) - Date check-in reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
     + to: `2017-04-16T12:30:00Z` (string, required) - Date check-out reservation (YYYY-MM-DD'T'HH:mm:ss'Z')
@@ -448,7 +444,7 @@ Get all premises.
             X-Previo-Hotel-ID: {hotId}
     
 + Response 200 (application/json)
-    + Attributes (array[MealAvalible])
+    + Attributes (MealAvalible)
 
 
 ## Statistic [/statistic]
@@ -1004,8 +1000,8 @@ Get all codebooks application needs:
 + name: All inclusive (string, required)
 
 ## MealAvalible
-+ meaId: 1 (number, required) - The unique identifier for meal
-+ isAvalible: true (boolean, optional) - Is meal avalible in term
++ 83326 : 1,2,3 (array, optional) - guaId : [meaIds]
++ 83329 : 2 (array, optional) - guaId : [meaIds]
 
 ## NotificationSetting
 + newCanvas: true (boolean, required) - Send notification at new reservation from canvas
