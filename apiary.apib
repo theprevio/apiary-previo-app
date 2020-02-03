@@ -607,20 +607,17 @@ Get a company by `fulltext` query.
 + Response 200 (application/json)
     + Attributes (array[Company])
 
-### Account Items [GET /suggest/accountItems{?fulltext}{?obkId}{?from}{?to}{?curId}]
-
-`In development`
+### Account Items [GET /suggest/accountItems{?fulltext}{?obkId}{?from}{?to}{?curId}{?allGuestsCount}]
 
 Get account items by `fulltext` query.
-
-***UNTESTED**
 
 + Parameters
     + fulltext: vine (string, optional) - Search by query, result is limited when fulltext is empty
     + obkId: 1245 (number, optional) - Premise kind id
-    + from: `2014-02-15T00:00:00Z` (string, optional) - Term from in Y-m-d format
-    + to: `2018-09-15T00:00:00Z` (string, optional) - Term to in Y-m-d format
+    + from: `2014-02-15T00:00:00Z` (string, required) - Term from in Y-m-d format
+    + to: `2018-09-15T00:00:00Z` (string, required) - Term to in Y-m-d format
     + curId: 1 (number, optional) - Currency id, set to hotel's currency by default
+    + allGuestsCount: 3 (number, optional) - Real count guest on room
     
 + Request (application/json)
     + Headers
