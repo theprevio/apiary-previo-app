@@ -794,6 +794,8 @@ Get all codebooks application needs:
 + city: Brno (string,optional)
 + zip: 60200 (string,optional)
 + couId: 1 (number,optional) - The unique identifier for country
++ streetType: Zbytecna utca (string, optional)
++ cifId: 249
 
 ## ContactPerson
 + name: Elon Musk (string, optional)
@@ -1056,6 +1058,7 @@ Get all codebooks application needs:
 + vats (array[Vat])
 + licences (array[License])
 + companyIdentificationNumbers (array[CompanyIdentificationNumber])
++ countryInvoiceFields (array[countryInvoiceFields])
 
 ##StopSales
 + objId: 6323 (number, required) - The unique identifier for the room
@@ -1091,3 +1094,7 @@ Get all codebooks application needs:
 ## CompanyIdentificationNumber
 + identificationNumer: 1 (number, required) - The unique identifier for company identification number
 + name: IČ (string, required) - Name of company identification number
+
+##countryInvoiceFields
++ id: 1 (number, required) - The identifier for street type
++ name: utca (string, required) - Name of the street type
