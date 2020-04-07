@@ -290,9 +290,12 @@ Add/Update an item to reservation (group) account or a commissions (single) acco
     + Attributes (CommissionAccount)
 
     
-### Get recalculate price [POST /account/recalculatePrice{?comId}{?isGroup}]
+### Get recalculate price [POST /account/recalculatePrice{?isGroup}]
 
 Get old account and new recalculate account.
+
++ Parameters
+    + isGroup: true (bool,required) - If isGroup si true, then the item is recalculate to the group account  
 
 + Request (application/json)
     + Headers
