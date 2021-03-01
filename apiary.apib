@@ -689,6 +689,7 @@ Get all codebooks application needs:
 + guestsCountWithoutBed: 2 (number, optional) -  Number of guests from extra bed category
 + guests (array[Guest], required)
 + company (Company)
++ cpsId: 1 (number, required) - Payment state of reservation (1-paid, 2-unpaid, 3-partially paid)
 
 ## CommissionRequest
 + comId: 52225 (number, optional) - The unique identifier for commission of reservation. If comId set, then update commission
@@ -895,6 +896,7 @@ Get all codebooks application needs:
 + defaultCosId: 1 (number, required) - Default commission status for the hotel
 + guestCategories (array[GuestCategory], required)
 + currencies: 1, 2 (array[number], required) - Support currency by hotel (curId)
++ useSaldoAsPaymentOfReservation: false (boolean, required) - Payment state determines saldo of reservation
 
 ## Currency
 + curId: 1 (number, required) - The unique identifier for currency
