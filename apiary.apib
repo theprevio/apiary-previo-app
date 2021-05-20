@@ -650,6 +650,7 @@ Get all codebooks application needs:
  - `vats`
  - `licences`
  - `companyIdentificationNumbers`
+ - `commissionPaymentStatuses`
  
 + Response 200 (application/json)
     + Attributes (CodeBook)
@@ -1066,6 +1067,7 @@ Get all codebooks application needs:
 + licences (array[License])
 + companyIdentificationNumbers (array[CompanyIdentificationNumber])
 + countryInvoiceFields (array[countryInvoiceFields])
++ commissionPaymentStatuses (array[commissionPaymentStatus])
 
 ##StopSales
 + objId: 6323 (number, required) - The unique identifier for the room
@@ -1105,3 +1107,8 @@ Get all codebooks application needs:
 ##countryInvoiceFields
 + id: 1 (number, required) - The identifier for street type
 + name: utca (string, required) - Name of the street type
+
+## commissionPaymentStatus
++ cpsId: 1 (number, required) - The identifier for payment status
++ name: Paid (string, required) - Name of payment status
++ position: 0 (number, required) - Position of payment status in select
