@@ -348,13 +348,13 @@ Get all hotels a signed up user belongs to.
 
 ## Premises [/premise]
 
-### Get all premises kinds availability [GET /premise/kinds/availability{?from}{?to}]
+### Get all premises kinds availability [GET /premise/kindsAvailability{?from}{?to}]
 
 Get list of all premises kinds with available premises
 
 + Parameters
-    + from: `2017-04-12 14:30:00` (string, required) - Term from for which we want to get availability (YYYY-MM-DD'T'HH:mm:ss'Z')
-    + to: `2017-04-16 12:30:00` (string, required) - Term to for which we want to get availability (YYYY-MM-DD'T'HH:mm:ss'Z')
+    + from: `2017-04-12T14:30:00Z` (string, required) - Term from for which we want to get availability (YYYY-MM-DD'T'HH:mm:ss'Z')
+    + to: `2017-04-16T12:30:00Z` (string, required) - Term to for which we want to get availability (YYYY-MM-DD'T'HH:mm:ss'Z')
 
 + Request (application/json)
     + Headers
