@@ -348,6 +348,24 @@ Get all hotels a signed up user belongs to.
 
 ## Premises [/premise]
 
+### Get all premises kinds availability [GET /premise/kind/availability{?from}{?to}]
+
+Get list of all premises kinds with available premises
+
++ Parameters
+    + from: `2017-04-12 14:30:00` (string, required) - Term from for which we want to get availability (YYYY-MM-DD'T'HH:mm:ss'Z')
+    + to: `2017-04-16 12:30:00` (string, required) - Term to for which we want to get availability (YYYY-MM-DD'T'HH:mm:ss'Z')
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+    
++ Response 200 (application/json)
+    + Attributes (array[PremiseKindAvailability])
+
 ### Get list of premise kinds [GET /premise/kind{?obtId}]
 
 Get all premises kinds.
@@ -706,6 +724,7 @@ Get all codebooks application needs:
 + isLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
 + guestsCount: 3 (number, optional) -  Number of guests in commission
 + guestsCountWithoutBed: 2 (number, optional) -  Number of guests from extra bed category
++ type: 0 (number, optional) -  type of commission (0 - basic commission or 1 - floating commission) default value - 0
 
 ## ReservationRequest
 + resId: 71994 (number, optional) - The unique identifier for reservation. If resId set, then update reservation
@@ -914,6 +933,10 @@ Get all codebooks application needs:
 + name: Double (string, required) - Name of object type premise
 + capacity: 3 (number, required) - Number of bed
 + extraCapacity: 2 (number, required) - Number of extra bed
+
+## PremiseKindAvailability
++ obkId: 2341 (number, required) - The unique identifier for premise kind 
++ availableCount: 3 (number, required) - Number of premises available
 
 ## Premise
 + objId: 6323 (number, required) - The unique identifier for the premise
