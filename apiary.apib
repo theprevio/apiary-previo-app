@@ -694,6 +694,7 @@ Get all codebooks application needs:
 ## Commission
 + comId: 52225 (number, required) - The unique identifier for commission of reservation
 + objId: 6323 (number, required) - The unique identifier for the room
++ obkId: 63 (number, required) - The unique identifier for the room kind
 + prpId: 1 (number, optional) - The unique identifier for Previo partner (Booking.com, Hotel.cz, Expedia.com, ...)
 + cosId: 1 (number, required) - The unique identifier for status of commission
 + voucher: 20130704 (string, optional) - Voucher for commission
@@ -917,6 +918,7 @@ Get all codebooks application needs:
 + guestCategories (array[GuestCategory], required)
 + currencies: 1, 2 (array[number], required) - Support currency by hotel (curId)
 + useSaldoAsPaymentOfReservation: false (boolean, required) - Payment state determines saldo of reservation
++ usesFloating: false (boolean, required) - Whether hotel using floating reservations or not, its also default type of newly created reservation
 
 ## Currency
 + curId: 1 (number, required) - The unique identifier for currency
