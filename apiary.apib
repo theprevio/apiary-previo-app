@@ -690,6 +690,7 @@ Get all codebooks application needs:
 + price: 2000 (number) - Total price of reservation
 + paid: 1000 (number) - Amount alreaddy paid
 + curId: 1 (number) - Currency
++ isEditationLocked: true (boolean, optional) - Lock entire reservation for editation
 
 ## Commission
 + comId: 52225 (number, required) - The unique identifier for commission of reservation
@@ -704,7 +705,8 @@ Get all codebooks application needs:
 + created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
 + statusDate: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
-+ isLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
++ isObjectLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
++ isEditationLocked: true (boolean, optional) - Lock entire commission for editation
 + guestCount: 3 (number, required) - Count of guests on this room
 + guestsCountWithoutBed: 2 (number, optional) -  Number of guests from extra bed category
 + guests (array[Guest], required)
@@ -722,7 +724,8 @@ Get all codebooks application needs:
 + created: `2017-05-23T10:59` (string, required) - Create date of commission (ISO 8601)
 + statusDate: `2017-05-23T10:59` (string, optional) - Date of expiration option (ISO 8601)
 + note: Lorem ipsum dolor sit amet... (string, optional) - Note for the commission with <b> <i> <u> HTML tags
-+ isLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
++ isObjectLocked: true (boolean, optional) - Locks comission so that it cannot be moved on canvas.
++ isEditationLocked: true (boolean, optional) - Lock entire commission for editation
 + guestsCount: 3 (number, optional) -  Number of guests in commission
 + guestsCountWithoutBed: 2 (number, optional) -  Number of guests from extra bed category
 + type: 0 (number, optional) -  type of commission (0 - basic commission or 1 - floating commission) default value - 0
