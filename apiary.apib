@@ -344,7 +344,22 @@ Get all hotels a signed up user belongs to.
             X-Previo-Hotel-ID: {hotId}
 
 + Response 200 (application/json)
-    + Attributes (array[Hotel])
+    + Attributes (array[HotelList])
+
+### Get hotel [GET /hotel{?hotId}]
+
++ Parameters
+    + hotId: 84 (number, required) - ID of hotel (YYYY-MM-DD'T'HH:mm:ss'Z')
+
++ Request (application/json)
+    + Headers
+
+            Authorization: {Base64(userEmail:password)}
+            X-Previo-App-ID: 1
+            X-Previo-Hotel-ID: {hotId}
+
++ Response 200 (application/json)
+    + Attributes (Hotel)
 
 ## Premises [/premise]
 
@@ -902,6 +917,10 @@ Get all codebooks application needs:
 + pckId: 15656 (number, optional) - If it is a package, then value is integer, else null
 + position: 1 (number, optional) - Set position of account 1 is top.
 
+## HotelList
++ hotId: 14690 (number, required) - The unique identifier for hotel
++ name: Previo hotel (string, required) - Name of hotel
+
 ## Hotel
 + hotId: 14690 (number, required) - The unique identifier for hotel
 + name: Previo hotel (string, required) - Name of hotel
@@ -917,7 +936,7 @@ Get all codebooks application needs:
 + guestCategories (array[GuestCategory], required)
 + currencies: 1, 2 (array[number], required) - Support currency by hotel (curId)
 + useSaldoAsPaymentOfReservation: false (boolean, required) - Payment state determines saldo of reservation
-+ defaultReservationType: int (number, required) - 0 - default reservation type is commission, 1 - default reservation type is floating
++ defaultReservationType: 0 (number, required) - 0 - default reservation type is commission, 1 - default reservation type is floating
 
 ## Currency
 + curId: 1 (number, required) - The unique identifier for currency
@@ -938,7 +957,7 @@ Get all codebooks application needs:
 ## PremiseKindAvailability
 + obkId: 2341 (number, required) - The unique identifier for premise kind 
 + availableCount: 3 (number, required) - Number of premises available
-* obtId: 1 (number, requierd) - Type of premises kind - 1 - room, 2 - othe
++ obtId: 1 (number, required) - Type of premises kind - 1 - room, 2 - othe
 
 ## Premise
 + objId: 6323 (number, required) - The unique identifier for the premise
